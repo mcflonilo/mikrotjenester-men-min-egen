@@ -1,0 +1,48 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: gateway
+  config:
+    import: "optional:consul:"
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    consul:
+      enabled: true
+      discovery:
+        query-passing: true
+      config:
+        data-key: application.yml
+        prefix: config
+        format: yaml
+        default-context: defaults
+    gateway:
+      routes:
+        - id: ongoinground
+          uri: lb://ongoinground/
+          predicates:
+            - Path=/ongoing
+        - id: recorder
+          uri: lb://recorder/
+          predicates:
+            - Path=/record,/record/**
+        - id: resolver
+          uri: lb://resolver/
+          predicates:
+            - Path=/round
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins:
+              -  "http://localhost:3000"
+            allowed-headers:
+              -  "*"
+            allowed-methods:
+              - "GET"
+              - "POST"
+              - "OPTIONS"
+            allow-credentials: true
+
