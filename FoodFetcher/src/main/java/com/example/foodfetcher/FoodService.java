@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FoodService {
 
-    @Cacheable("foodsData")
+    @Cacheable("foods")
     public List<Food> fetchFoods() {
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://www.matvaretabellen.no/api/nb/foods.json";

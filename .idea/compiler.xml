@@ -8,14 +8,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="FoodFetcher" />
+        <module name="RecipeService" />
         <module name="Gateway" />
         <module name="LoginService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="OngoingRound" target="19" />
-      <module name="Recorder" target="19" />
-      <module name="RoundResolver" target="19" />
+      <module name="OngoingRound" target="21" />
+      <module name="Recorder" target="21" />
+      <module name="RoundResolver" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -24,6 +25,7 @@
       <module name="Gateway" options="-parameters" />
       <module name="LoginService" options="-parameters" />
       <module name="OngoingRound" options="-parameters" />
+      <module name="RecipeService" options="-parameters" />
       <module name="Recorder" options="-parameters" />
       <module name="RoundResolver" options="-parameters" />
     </option>

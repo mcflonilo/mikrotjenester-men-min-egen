@@ -42,6 +42,7 @@ const DataFetchComponent: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [selectedItems, setSelectedItems] = useState<DataItem[]>([]);
     const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+    const [recipeName, setRecipeName] = useState<string>('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,8 +50,8 @@ const DataFetchComponent: React.FC = () => {
                 const response = await fetch('http://localhost:8080/api/food');
                 const result = await response.json();
                 console.log('Response result:', result);
-                if (result && Array.isArray(result.foods)) {
-                    setData(result.foods);
+                if (Array.isArray(result)) {
+                    setData(result);
                 } else {
                     console.error('Fetched data is not in the expected format:', result);
                 }
@@ -107,6 +108,34 @@ const DataFetchComponent: React.FC = () => {
         }, 0);
     };
 
+    const handleSaveRecipe = async () => {
+        const recipe = {
+            name: recipeName,
+            ingredients: selectedItems.map(item => ({
+                foodName: item.foodName,
+                quantity: quantities[item.foodName]
+            }))
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/api/recipes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(recipe)
+            });
+
+            if (response.ok) {
+                console.log('Recipe saved successfully');
+            } else {
+                console.error('Failed to save recipe');
+            }
+        } catch (error) {
+            console.error('Error saving recipe', error);
+        }
+    };
+
     const customStyles = {
         control: (provided: any) => ({
             ...provided,
@@ -124,7 +153,6 @@ const DataFetchComponent: React.FC = () => {
             padding: '10px',
         }),
     };
-
 
     return (
         <div>
@@ -164,6 +192,15 @@ const DataFetchComponent: React.FC = () => {
             <h2>Total Fat: {calculateTotalNutrient('Fett')} g</h2>
             <h2>Total Carbs: {calculateTotalNutrient('Karbo')} g</h2>
             <h2>Data</h2>
+            <div>
+                <input
+                    type="text"
+                    placeholder="Recipe Name"
+                    value={recipeName}
+                    onChange={(e) => setRecipeName(e.target.value)}
+                />
+                <button onClick={handleSaveRecipe}>Save Recipe</button>
+            </div>
         </div>
     );
 };
