@@ -7,14 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="OngoingRound" />
         <module name="FoodFetcher" />
-        <module name="Recorder" />
-        <module name="RoundResolver" />
         <module name="Gateway" />
         <module name="LoginService" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="OngoingRound" target="19" />
+      <module name="Recorder" target="19" />
+      <module name="RoundResolver" target="19" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
