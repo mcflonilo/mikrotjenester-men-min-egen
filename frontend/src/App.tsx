@@ -1,19 +1,47 @@
+// src/App.tsx
 import './App.css';
 import * as React from 'react';
-import DataFetchComponent from './components/DataFetchComponent.tsx';
-// @ts-ignore
-import { LoginButton } from "./login/loginButton";
-//import { LoginContext } from "./login/loginContext";
-// @ts-ignore
-import {LoginProvider} from "./login/loginContext";
-import FetchRecipes from "./components/FetchRecipes.tsx";
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import FetchRecipes from './components/FetchRecipes';
+import CreateRecipe from './components/CreateRecipe';
+import { NavProvider, useNav } from './NavContext';
 
 const App: React.FC = () => {
     return (
-            <div>
-                <h1>Rounds111</h1>
-                <FetchRecipes />
-                </div>
+        <NavProvider>
+            <Router>
+                <AppContent />
+            </Router>
+        </NavProvider>
+    );
+};
+
+const AppContent: React.FC = () => {
+    const { showNav, setShowNav } = useNav();
+
+    const handleLinkClick = () => {
+        setShowNav(false);
+    };
+
+    return (
+        <div>
+            {showNav && (
+                <nav>
+                    <ul>
+                        <li>
+                            <Link to="/recipes" onClick={handleLinkClick}>Browse Recipes</Link>
+                        </li>
+                        <li>
+                            <Link to="/create" onClick={handleLinkClick}>Create Recipe</Link>
+                        </li>
+                    </ul>
+                </nav>
+            )}
+            <Routes>
+                <Route path="/recipes" element={<FetchRecipes />} />
+                <Route path="/create" element={<CreateRecipe />} />
+            </Routes>
+        </div>
     );
 };
 

@@ -20,6 +20,11 @@ public class RecipeController {
 
     @PostMapping("/api/recipe")
     public Recipe addRecipe(@RequestBody Recipe recipe) {
+        System.out.println(recipe.getName());
+        System.out.println(recipe.getDescription());
+        System.out.println(recipe.getInstructions());
+        System.out.println(recipe.getIngredientIds());
+        System.out.println(recipe.getQuantity());
         return recipeRepository.save(recipe);
     }
 }

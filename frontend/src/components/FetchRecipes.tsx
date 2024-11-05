@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Ingredient from "./Ingredient.tsx";
+import BackButton from "./BackButton.tsx";
 
 interface Recipe {
     id: number;
@@ -49,20 +51,31 @@ const FetchRecipes: React.FC = () => {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
     const [nutritionalData, setNutritionalData] = useState<NutritionalData[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [loadingIngredients, setLoadingIngredients] = useState<boolean>(false);
 
     useEffect(() => {
+        setLoading(true);
         fetch('http://localhost:8080/api/recipe')
             .then(response => response.json())
-            .then(data => setRecipes(data))
-            .catch(error => console.error('Error fetching recipes:', error));
+            .then(data => {
+                setRecipes(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching recipes:', error);
+                setLoading(false);
+            });
     }, []);
 
     const handleRecipeClick = (recipe: Recipe) => {
         setSelectedRecipe(recipe);
+        setRecipes([]); // Clear the recipes
         fetchNutritionalData(recipe.ingredientIds);
     };
 
     const fetchNutritionalData = (ingredientIds: number[]) => {
+        setLoadingIngredients(true);
         fetch(`http://localhost:8081/api/food/${ingredientIds.join(',')}`)
             .then(response => {
                 if (!response.ok) {
@@ -76,49 +89,62 @@ const FetchRecipes: React.FC = () => {
                     throw new Error('Data is not an array');
                 }
                 setNutritionalData(data);
+                setLoadingIngredients(false);
             })
-            .catch(error => console.error('Error fetching nutritional data:', error));
+            .catch(error => {
+                console.error('Error fetching nutritional data:', error);
+                setLoadingIngredients(false);
+            });
     };
+
     const calculateTotalCalories = () => {
         return nutritionalData.reduce((total, item) => {
-            const quantity = selectedRecipe?.quantity || 1;
+            const quantity = selectedRecipe?.quantity || [];
             // @ts-ignore
-            return total + (item.calories.quantity * quantity / 100);
+            return total + (item.calories.quantity * (quantity[item.foodName] || 1) / 100);
         }, 0);
     };
 
     const calculateTotalNutrient = (nutrientId: string) => {
         return nutritionalData.reduce((total, item) => {
-            const quantity = selectedRecipe?.quantity || 1;
+            const quantity = selectedRecipe?.quantity || [];
             const nutrient = item.constituents.find(constituent => constituent.nutrientId === nutrientId);
-            console.log(quantity);
             // @ts-ignore
-            return total + (nutrient ? ((nutrient.quantity??0) * quantity / 100) : 0);
+            return total + (nutrient ? ((nutrient.quantity ?? 0) * (quantity[item.foodName] || 1) / 100) : 0);
         }, 0);
     };
 
     return (
         <div>
-            <h2>Recipes</h2>
-            <ul>
-                {recipes.map(recipe => (
-                    <li key={recipe.id} onClick={() => handleRecipeClick(recipe)}>
-                        {recipe.name}
-                    </li>
-                ))}
-            </ul>
+            <BackButton/>
+            {selectedRecipe === null && <h2>Recipes</h2>}
+            {loading ? (
+                <div>Loading recipes...</div>
+            ) : (
+                <ul>
+                    {recipes.map(recipe => (
+                        <li key={recipe.id} onClick={() => handleRecipeClick(recipe)}>
+                            {recipe.name}
+                        </li>
+                    ))}
+                </ul>
+            )}
             {selectedRecipe && (
                 <div>
                     <h3>{selectedRecipe.name}</h3>
                     <p>{selectedRecipe.description}</p>
-                    <ul>
-                        {nutritionalData.map((data, index) => (
-                            <li key={data.foodName}>{data.foodName}, Quantity: {selectedRecipe.quantity[index]}</li>
-                        ))}
-                    </ul>
+                    {loadingIngredients ? (
+                        <div>Loading ingredients...</div>
+                    ) : (
+                        <ul>
+                            {nutritionalData.map((data, index) => (
+                                <li key={index}>
+                                    <Ingredient ingredient={data} quantity={selectedRecipe.quantity[index]} />
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                     <p>{selectedRecipe.instructions}</p>
-                    <h4>Ingredients</h4>
-
                     <h4>Nutritional Data</h4>
                     <h2>Total Calories: {calculateTotalCalories()} kcal</h2>
                     <h2>Total Protein: {calculateTotalNutrient('Protein')} g</h2>
