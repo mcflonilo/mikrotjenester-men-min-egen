@@ -21,18 +21,14 @@ spring:
         default-context: defaults
     gateway:
       routes:
-        - id: ongoinground
-          uri: lb://ongoinground/
+        - id: foodfetcher
+          uri: lb://foodfetcher
           predicates:
-            - Path=/ongoing
-        - id: recorder
-          uri: lb://recorder/
+            - Path=/api/food/**
+        - id: emailservice
+          uri: lb://emailservice
           predicates:
-            - Path=/record,/record/**
-        - id: resolver
-          uri: lb://resolver/
-          predicates:
-            - Path=/round
+            - Path=/api/email/**
       globalcors:
         cors-configurations:
           '[/**]':
