@@ -56,7 +56,7 @@ const FetchRecipes: React.FC = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch('http://localhost:8080/api/recipe')
+        fetch('api/recipe')
             .then(response => response.json())
             .then(data => {
                 setRecipes(data);
@@ -76,7 +76,7 @@ const FetchRecipes: React.FC = () => {
 
     const fetchNutritionalData = (ingredientIds: number[]) => {
         setLoadingIngredients(true);
-        fetch(`http://localhost:8081/api/food/${ingredientIds.join(',')}`)
+        fetch(`api/food/${ingredientIds.join(',')}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
