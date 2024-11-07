@@ -16,7 +16,7 @@ const CreateRecipe: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:8081/api/food');
+                const response = await fetch('http://localhost:8000/api/food');
                 const result = await response.json();
                 if (Array.isArray(result)) {
                     setData(result);
@@ -62,7 +62,7 @@ const CreateRecipe: React.FC = () => {
         }
         const ingredientIds = ingredients.map(ingredient => ingredient.id);
         const quantities = ingredients.map(ingredient => ingredient.quantity);
-        fetch('http://localhost:8080/api/recipe', {
+        fetch('http://localhost:8000/api/recipe', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

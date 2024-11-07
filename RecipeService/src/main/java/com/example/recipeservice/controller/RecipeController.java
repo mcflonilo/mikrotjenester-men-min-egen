@@ -15,7 +15,13 @@ public class RecipeController {
 
     @GetMapping("/api/recipe")
     public List<Recipe> getRecipes() {
-        return recipeRepository.findAll();
+        try {
+            System.out.println("getRecipes");
+            return recipeRepository.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @PostMapping("/api/recipe")

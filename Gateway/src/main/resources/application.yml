@@ -21,24 +21,29 @@ spring:
         default-context: defaults
     gateway:
       routes:
-        - id: foodfetcher
-          uri: lb://foodfetcher
+        - id: FoodFetcher
+          uri: http://localhost:8081
           predicates:
             - Path=/api/food/**
         - id: emailservice
           uri: lb://emailservice
           predicates:
             - Path=/api/email/**
+        - id: RecipeService
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/recipe/**
+          filters:
+            - StripPrefix=0
       globalcors:
         cors-configurations:
           '[/**]':
             allowed-origins:
-              -  "http://localhost:3000"
+              - "http://localhost:3000"
             allowed-headers:
-              -  "*"
+              - "*"
             allowed-methods:
               - "GET"
               - "POST"
               - "OPTIONS"
             allow-credentials: true
-
