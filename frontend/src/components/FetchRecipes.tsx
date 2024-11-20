@@ -47,7 +47,11 @@ interface NutritionalData {
     foodId: string;
 }
 
-const FetchRecipes: React.FC = () => {
+interface FetchRecipesProps {
+    handleAddToShoppingList: (newItems: { id: number; name: string; quantity: number }[]) => void;
+}
+
+const FetchRecipes: React.FC<FetchRecipesProps> = ({ handleAddToShoppingList }) => {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
     const [nutritionalData, setNutritionalData] = useState<NutritionalData[]>([]);
@@ -114,6 +118,17 @@ const FetchRecipes: React.FC = () => {
         }, 0);
     };
 
+
+    const handleAddToShoppingListClick = () => {
+        const newItems = nutritionalData.map((data, index) => {
+            const quantity = selectedRecipe?.quantity[index] || 0;
+            return { id: index, name: data.foodName, quantity: quantity };
+        });
+        handleAddToShoppingList(newItems);
+    };
+
+
+
     return (
         <div>
             <BackButton/>
@@ -123,8 +138,8 @@ const FetchRecipes: React.FC = () => {
             ) : (
                 <ul>
                     {recipes.map(recipe => (
-                        <li key={recipe.id} onClick={() => handleRecipeClick(recipe)}>
-                            {recipe.name}
+                        <li key={recipe.id}>
+                            <span onClick={() => handleRecipeClick(recipe)}>{recipe.name}</span>
                         </li>
                     ))}
                 </ul>
@@ -150,6 +165,7 @@ const FetchRecipes: React.FC = () => {
                     <h2>Total Protein: {calculateTotalNutrient('Protein')} g</h2>
                     <h2>Total Fat: {calculateTotalNutrient('Fett')} g</h2>
                     <h2>Total Carbs: {calculateTotalNutrient('Karbo')} g</h2>
+                    <button onClick={handleAddToShoppingListClick}>Add to Shopping List</button>
                 </div>
             )}
         </div>

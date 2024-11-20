@@ -22,15 +22,15 @@ spring:
     gateway:
       routes:
         - id: FoodFetcher
-          uri: http://localhost:8081
+          uri: lb://FoodFetcher
           predicates:
             - Path=/api/food/**
-        - id: emailservice
-          uri: lb://emailservice
+        - id: EmailService
+          uri: lb://EmailService
           predicates:
             - Path=/api/email/**
         - id: RecipeService
-          uri: http://localhost:8080
+          uri: lb://RecipeService
           predicates:
             - Path=/api/recipe/**
           filters:

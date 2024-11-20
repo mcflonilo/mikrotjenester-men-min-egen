@@ -10,6 +10,5 @@ public class FoodFetcherApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(FoodFetcherApplication.class, args);
-        FoodService foodService = new FoodService();
     }
 }

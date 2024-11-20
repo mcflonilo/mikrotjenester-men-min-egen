@@ -61,15 +61,15 @@ const CreateRecipe: React.FC = () => {
             return;
         }
         const ingredientIds = ingredients.map(ingredient => ingredient.id);
-        const quantities = ingredients.map(ingredient => ingredient.quantity);
+        const quantity = ingredients.map(ingredient => ingredient.quantity);
         fetch('http://localhost:8000/api/recipe', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, description, instructions, ingredientIds, quantities }),
+            body: JSON.stringify({ name, description, instructions, ingredientIds, quantity }),
         });
-        console.log({ name, description, instructions, ingredientIds, quantities });
+        console.log({ name, description, instructions, ingredientIds, quantity });
     };
 
     const customStyles = {
