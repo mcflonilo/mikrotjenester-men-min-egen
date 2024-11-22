@@ -25,6 +25,10 @@ spring:
           uri: lb://FoodFetcher
           predicates:
             - Path=/api/food/**
+        - id: ShoppingListService
+          uri: lb://ShoppingListService
+          predicates:
+            - Path=/api/shoppinglist/**
         - id: EmailService
           uri: lb://EmailService
           predicates:

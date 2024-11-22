@@ -8,6 +8,15 @@ import { NavProvider, useNav } from './NavContext';
 import ShoppingList from "./components/ShoppingList.tsx";
 import {useState} from "react";
 
+interface Recipe {
+    id: number;
+    name: string;
+    description: string;
+    instructions: string;
+    ingredientIds: number[];
+    quantity: number[];
+}
+
 const App: React.FC = () => {
     return (
         <NavProvider>
@@ -20,14 +29,18 @@ const App: React.FC = () => {
 
 const AppContent: React.FC = () => {
     const { showNav, setShowNav } = useNav();
-    const [shoppingList, setShoppingList] = useState<{ id: number; name: string; quantity: number }[]>([]);
+    const [shoppingList, setShoppingList] = useState<Recipe[]>([]);
 
     const handleLinkClick = () => {
         setShowNav(false);
     };
 
-    const handleAddToShoppingList = (newItems: { id: number; name: string; quantity: number }[]) => {
-        setShoppingList([...shoppingList.filter(item => !newItems.some(newItem => newItem.name === item.name)), ...newItems]);
+    const handleAddToShoppingList = (newRecipe: Recipe) => {
+        setShoppingList([...shoppingList.filter(recipe => recipe.id !== newRecipe.id), newRecipe]);
+    };
+
+    const handleRemoveFromShoppingList = (recipeId: number) => {
+        setShoppingList(shoppingList.filter(recipe => recipe.id !== recipeId));
     };
 
     return (
@@ -42,7 +55,7 @@ const AppContent: React.FC = () => {
                             <Link to="/create" onClick={handleLinkClick}>Create Recipe</Link>
                         </li>
                         <li>
-                            <Link to="/shopping-list" onClick={handleLinkClick}>Shopping List</Link>
+                            <Link to="/shopping-list" onClick={handleLinkClick}>Meal plan</Link>
                         </li>
                     </ul>
                 </nav>
@@ -50,7 +63,7 @@ const AppContent: React.FC = () => {
             <Routes>
                 <Route path="/recipes" element={<FetchRecipes handleAddToShoppingList={handleAddToShoppingList} />} />
                 <Route path="/create" element={<CreateRecipe />} />
-                <Route path="/shopping-list" element={<ShoppingList shoppingList={shoppingList} />} />
+                <Route path="/shopping-list" element={<ShoppingList shoppingList={shoppingList} handleRemoveFromShoppingList={handleRemoveFromShoppingList} />} />
             </Routes>
         </div>
     );

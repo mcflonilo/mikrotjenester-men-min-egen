@@ -1,51 +1,177 @@
-// src/components/ShoppingList.tsx
-import * as React from 'react';
-import {useState} from "react";
+import React, { useState } from 'react';
 import BackButton from "./BackButton.tsx";
 
-interface ShoppingListProps {
-    shoppingList: { id: number; name: string; quantity: number }[];
+interface Recipe {
+    id: number;
+    name: string;
+    description: string;
+    instructions: string;
+    ingredientIds: number[];
+    quantity: number[];
 }
-const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList }) => {
-    const [email, setEmail] = useState('');
-    const handleTest = () => {
-        const text = shoppingList.map((item) => (
-            item.name + ": " + item.quantity + "\n"
-        ));
-        console.log(text.toString());
-        const data = {
-            to: email,
-            subject: 'Shopping List',
-            text: text.toString()
-        };
-        const urlEncodedData = new URLSearchParams(data).toString();
-        fetch('http://localhost:8000/api/email', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: urlEncodedData
+
+interface NutritionalData {
+    searchKeywords: string[];
+    calories: {
+        sourceId: string;
+        quantity: number;
+        unit: string;
+    };
+    portions: {
+        portionName: string;
+        portionUnit: string;
+        quantity: number;
+        unit: string;
+    }[];
+    ediblePart: {
+        percent: number;
+        sourceId: string;
+    };
+    langualCodes: string[];
+    energy: {
+        sourceId: string;
+        quantity: number;
+        unit: string;
+    };
+    foodName: string;
+    latinName: string;
+    constituents: {
+        sourceId: string;
+        quantity?: number;
+        unit?: string;
+        nutrientId: string;
+    }[];
+    uri: string;
+    foodGroupId: string;
+    foodId: string;
+}
+
+interface ShoppingListProps {
+    shoppingList: Recipe[];
+    handleRemoveFromShoppingList: (recipeId: number) => void;
+}
+
+const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppingList, handleRemoveFromShoppingList }) => {
+    const [shoppingList, setShoppingList] = useState<Recipe[]>(initialShoppingList);
+    const [expandedRecipeId, setExpandedRecipeId] = useState<number | null>(null);
+    const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
+    const [returnedShoppingList, setReturnedShoppingList] = useState<{ [key: number]: number } | null>(null);
+    const [ingredients, setIngredients] = useState<NutritionalData[]>([]);
+
+    const handleRecipeClick = async (recipeId: number) => {
+        setExpandedRecipeId(expandedRecipeId === recipeId ? null : recipeId);
+        if (expandedRecipeId !== recipeId) {
+            const recipe = shoppingList.find(recipe => recipe.id === recipeId);
+            if (recipe) {
+                const response = await fetch(`http://localhost:8000/api/food/${recipe.ingredientIds.join(',')}`);
+                const ingredientData = await response.json();
+                setIngredients(ingredientData);
+            }
+        }
+    };
+
+    const handleQuantityChange = (recipeId: number, newQuantity: number) => {
+        setQuantities({
+            ...quantities,
+            [recipeId]: newQuantity,
         });
-    }
+    };
+
+    const handleRemoveRecipe = (recipeId: number) => {
+        handleRemoveFromShoppingList(recipeId);
+        setShoppingList(prevShoppingList => prevShoppingList.filter(recipe => recipe.id !== recipeId));
+        setQuantities((prevQuantities) => {
+            const newQuantities = { ...prevQuantities };
+            delete newQuantities[recipeId];
+            return newQuantities;
+        });
+        setExpandedRecipeId((prevExpandedRecipeId) => (prevExpandedRecipeId === recipeId ? null : prevExpandedRecipeId));
+    };
+
+    const handleCreateCompleteShoppingList = async (sendToRabbitMQ: boolean) => {
+        try {
+            const ingredientIds = shoppingList.flatMap(recipe => recipe.ingredientIds);
+            const response = await fetch(`http://localhost:8000/api/food/${ingredientIds.join(',')}`);
+            const ingredientData = await response.json();
+            const recipeQuantity = shoppingList.flatMap(recipe => Array.isArray(recipe.quantity) ? recipe.quantity.map(q => q * (quantities[recipe.id] || 1)) : [recipe.quantity * (quantities[recipe.id] || 1)]);            const combinedList = recipeQuantity.map((quantity, index) => {
+                const ingredient = ingredientData[index];
+                if (!ingredient) {
+                    console.warn(`No ingredient data found for index ${index}`);
+                    return null;
+                }
+                return {
+                    foodName: ingredient.foodName,
+                    quantity: quantity
+                };
+            }).filter(item => item !== null);
+            const shoppingListResponse = await fetch(`http://localhost:8000/api/shoppinglist?sendToRabbitMQ=${sendToRabbitMQ}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(combinedList),
+            });
+            if (!shoppingListResponse.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await shoppingListResponse.json();
+            console.log('Shopping list created:', data);
+            setReturnedShoppingList(data);
+        } catch (error) {
+            console.error('Error creating shopping list:', error);
+        }
+    };
+
     return (
         <div>
             <BackButton />
-            <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <button onClick={handleTest}>send list on email</button>
+            <h2>Meal Plan</h2>
+            {shoppingList.length === 0 ? (
+                <p>No meals planned.</p>
+            ) : (
+                <div>
+                    <ul>
+                        {shoppingList.map(recipe => (
+                            <li key={recipe.id}>
+                                <h3 onClick={() => handleRecipeClick(recipe.id)}>{recipe.name}</h3>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={quantities[recipe.id] || 1}
+                                    onChange={(e) => handleQuantityChange(recipe.id, parseInt(e.target.value))}
+                                />
+                                <button onClick={() => handleRemoveRecipe(recipe.id)}>Remove</button>
+                                {expandedRecipeId === recipe.id && (
+                                    <div>
+                                        <ul>
+                                            {ingredients.map((data, index) => (
+                                                <li key={index}>
+                                                    <p>{data.foodName} {recipe.quantity[index] * (quantities[recipe.id] || 1)}</p>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                    <button onClick={() => handleCreateCompleteShoppingList(false)}>Create Complete Shopping List
+                    </button>
+                    <button onClick={() => handleCreateCompleteShoppingList(true)}>Create and Send to RabbitMQ</button>
+                </div>
+            )}
+            {returnedShoppingList && (
+                <div>
+                    <h2>Returned Shopping List</h2>
+                    <ul>
+                        {Object.entries(returnedShoppingList).map(([foodName, quantity]) => (
+                            <li key={foodName}>
+                                <p>{foodName}: {quantity}</p>
+                            </li>
+                        ))}</ul>
 
-            <h2>Shopping List</h2>
-            <ul>
-                {shoppingList.map((item, index) => (
-                    <li key={index}>
-                        {item.name}: {item.quantity}
-                    </li>
-                ))}
-            </ul>
+                </div>
+            )}
         </div>
     );
 };
