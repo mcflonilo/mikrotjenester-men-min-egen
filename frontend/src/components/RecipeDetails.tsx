@@ -1,4 +1,3 @@
-// src/components/RecipeDetails.tsx
 import React, { useEffect, useState } from 'react';
 import Ingredient from "./Ingredient.tsx";
 
@@ -9,6 +8,7 @@ interface Recipe {
     instructions: string;
     ingredientIds: number[];
     quantity: number[];
+    allergyTags: string[]; // Add this line
 }
 
 interface NutritionalData {
@@ -124,6 +124,12 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe, handleAddToShoppi
             <h2>Total Protein: {calculateTotalNutrient('Protein')} g</h2>
             <h2>Total Fat: {calculateTotalNutrient('Fett')} g</h2>
             <h2>Total Carbs: {calculateTotalNutrient('Karbo')} g</h2>
+            <h4>Allergy Tags</h4>
+            <ul>
+                {recipe.allergyTags.map((tag, index) => (
+                    <li key={index}>{tag}</li>
+                ))}
+            </ul>
             <button onClick={handleAddToShoppingListClick}>Add to meal plan</button>
         </div>
     );

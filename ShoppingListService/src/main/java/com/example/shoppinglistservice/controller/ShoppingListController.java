@@ -24,7 +24,13 @@ public class ShoppingListController {
         System.out.println(consolidatedIngredients);
 
         if (sendToRabbitMQ) {
-            rabbitTemplate.convertAndSend("shoppingListQueue", consolidatedIngredients);
+            Map<String, Object> rabbitMQMessage = Map.of(
+                    "to", "lm.opheim39@gmail.com",
+                    "subject", "Shopping List",
+                    "text", consolidatedIngredients.toString()
+            );
+            rabbitTemplate.convertAndSend("shoppingListQueue", rabbitMQMessage);
+            System.out.println(rabbitMQMessage);
         }
 
         return consolidatedIngredients;

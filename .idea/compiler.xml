@@ -7,11 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="FoodFetcher" />
         <module name="ShoppingListService" />
-        <module name="EmailService" />
         <module name="RecipeService" />
         <module name="Gateway" />
+        <module name="RecipeService (2)" />
+        <module name="RecipeService (1)" />
+        <module name="FoodFetcher" />
+        <module name="EmailService" />
         <module name="LoginService" />
       </profile>
     </annotationProcessing>
@@ -29,6 +31,8 @@
       <module name="LoginService" options="-parameters" />
       <module name="OngoingRound" options="-parameters" />
       <module name="RecipeService" options="-parameters" />
+      <module name="RecipeService (1)" options="-parameters" />
+      <module name="RecipeService (2)" options="-parameters" />
       <module name="Recorder" options="-parameters" />
       <module name="RoundResolver" options="-parameters" />
       <module name="ShoppingListService" options="-parameters" />

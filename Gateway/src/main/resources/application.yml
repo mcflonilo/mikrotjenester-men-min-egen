@@ -37,6 +37,10 @@ spring:
           uri: lb://RecipeService
           predicates:
             - Path=/api/recipe/**
+        - id: LoginService
+          uri: lb://LoginService
+          predicates:
+            - Path=/api/login/**
           filters:
             - StripPrefix=0
       globalcors:

@@ -7,6 +7,7 @@ import CreateRecipe from './components/CreateRecipe';
 import { NavProvider, useNav } from './NavContext';
 import ShoppingList from "./components/ShoppingList.tsx";
 import {useState} from "react";
+import Login from "./components/Login.tsx";
 
 interface Recipe {
     id: number;
@@ -48,6 +49,7 @@ const AppContent: React.FC = () => {
             {showNav && (
                 <nav>
                     <ul>
+                        <Login/>
                         <li>
                             <Link to="/recipes" onClick={handleLinkClick}>Browse Recipes</Link>
                         </li>

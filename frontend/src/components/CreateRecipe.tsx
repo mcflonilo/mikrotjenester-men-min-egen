@@ -3,6 +3,10 @@ import Select from 'react-select';
 import BackButton from "./BackButton.tsx";
 import { Ingredient as IngredientType } from '../types/Ingredient';
 
+const allergyOptions = [
+    "Gluten", "Crustaceans", "Eggs", "Fish", "Peanuts", "Soybeans", "Milk", "Nuts", "Celery", "Mustard", "Sesame", "Sulphites", "Lupin", "Molluscs"
+];
+
 const CreateRecipe: React.FC = () => {
     const [data, setData] = useState<IngredientType[]>([]);
     const [name, setName] = useState('');
@@ -11,6 +15,7 @@ const CreateRecipe: React.FC = () => {
     const [selectedIngredient, setSelectedIngredient] = useState<{ value: number, label: string } | null>(null);
     const [quantity, setQuantity] = useState('');
     const [ingredients, setIngredients] = useState<{ id: number; name: string; quantity: string }[]>([]);
+    const [allergyTags, setAllergyTags] = useState<string[]>([]);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
@@ -44,6 +49,14 @@ const CreateRecipe: React.FC = () => {
         }
     };
 
+    const handleAllergyChange = (allergy: string) => {
+        setAllergyTags(prevTags =>
+            prevTags.includes(allergy)
+                ? prevTags.filter(tag => tag !== allergy)
+                : [...prevTags, allergy]
+        );
+    };
+
     const validate = () => {
         const newErrors: { [key: string]: string } = {};
         if (!name) newErrors.name = 'Name is required';
@@ -67,9 +80,9 @@ const CreateRecipe: React.FC = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, description, instructions, ingredientIds, quantity }),
+            body: JSON.stringify({ name, description, instructions, ingredientIds, quantity, allergyTags }),
         });
-        console.log({ name, description, instructions, ingredientIds, quantity });
+        console.log({ name, description, instructions, ingredientIds, quantity, allergyTags });
     };
 
     const customStyles = {
@@ -132,6 +145,21 @@ const CreateRecipe: React.FC = () => {
                     />
                     <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
                     {errors.ingredients && <span style={{ color: 'red' }}>{errors.ingredients}</span>}
+                </div>
+                <div>
+                    <h4>Allergy Tags</h4>
+                    {allergyOptions.map((allergy, index) => (
+                        <div key={index}>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={allergyTags.includes(allergy)}
+                                    onChange={() => handleAllergyChange(allergy)}
+                                />
+                                {allergy}
+                            </label>
+                        </div>
+                    ))}
                 </div>
                 <button type="submit">Save Recipe</button>
             </form>

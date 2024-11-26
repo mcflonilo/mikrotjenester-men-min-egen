@@ -24,7 +24,7 @@ public class RecipeServiceApplication implements CommandLineRunner {
         List<Integer> ingredientIds = List.of(1, 2);
         List<Integer> quantity = List.of(1, 2);
 
-        Recipe recipe = new Recipe( "Pasta", "Pasta with tomato sauce", "Cook pasta, add sauce", ingredientIds, quantity);
+        Recipe recipe = new Recipe( "Pasta", "Pasta with tomato sauce", "Cook pasta, add sauce", ingredientIds, quantity, List.of("Gluten"));
         recipeRepository.save(recipe);
     }
 }

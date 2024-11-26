@@ -104,6 +104,7 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                     quantity: quantity
                 };
             }).filter(item => item !== null);
+
             const shoppingListResponse = await fetch(`http://localhost:8000/api/shoppinglist?sendToRabbitMQ=${sendToRabbitMQ}`, {
                 method: 'POST',
                 headers: {

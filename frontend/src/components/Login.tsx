@@ -1,28 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Login: React.FC = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [user, setUser] = useState<any>(null);
 
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        const response = await fetch('http://localhost:8080/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-        });
-        const data = await response.json();
-        if (data.token) {
-            localStorage.setItem('token', data.token);
-        }
+    const handleLogin = () => {
+        window.location.href = 'http://localhost:8000/api/login/oauth2/authorization/google ';
     };
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/login', {
+                    credentials: 'include',
+
+                });
+                if (response.ok) {
+                    const userData = await response.json();
+                    console.log('User data:', userData);
+                    setUser(userData);
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        };
+
+        fetchUser();
+    }, []);
+
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button type="submit">Login</button>
-        </form>
+        <div>
+            {!user && <button onClick={handleLogin}>Login with Google</button>}
+            {user && (
+                <div>
+                    <h2>Welcome, {user.fullName}</h2>
+                    <p>Email: {user.email}</p>
+                </div>
+            )}
+        </div>
     );
 };
 

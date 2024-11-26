@@ -2,6 +2,7 @@ package com.example.recipeservice.controller;
 
 import com.example.recipeservice.model.Recipe;
 import com.example.recipeservice.repository.RecipeRepository;
+import com.example.recipeservice.service.RabbitMQProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,9 @@ public class RecipeController {
 
     @Autowired
     private RecipeRepository recipeRepository;
+
+    @Autowired
+    private RabbitMQProducer rabbitMQProducer;
 
     @GetMapping("/api/recipe")
     public List<Recipe> getRecipes() {
@@ -24,13 +28,11 @@ public class RecipeController {
         }
     }
 
+
+
     @PostMapping("/api/recipe")
-    public Recipe addRecipe(@RequestBody Recipe recipe) {
-        System.out.println(recipe.getName());
-        System.out.println(recipe.getDescription());
-        System.out.println(recipe.getInstructions());
-        System.out.println(recipe.getIngredientIds());
-        System.out.println(recipe.getQuantity());
-        return recipeRepository.save(recipe);
+    public String addRecipe(@RequestBody Recipe recipe) {
+        rabbitMQProducer.sendMessage(recipe);
+        return "Recipe creation request sent to the queue.";
     }
 }
