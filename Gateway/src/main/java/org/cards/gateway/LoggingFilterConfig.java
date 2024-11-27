@@ -26,5 +26,6 @@ public class LoggingFilterConfig {
 
     private void logResponse(ServerWebExchange exchange) {
         System.out.println("Response: " + exchange.getResponse().getStatusCode());
+        System.out.println(exchange.getResponse().getHeaders());
     }
 }

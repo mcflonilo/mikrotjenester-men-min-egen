@@ -1,31 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const Login: React.FC = () => {
-    const [user, setUser] = useState<any>(null);
+interface LoginProps {
+    user: any;
+    setUser: React.Dispatch<React.SetStateAction<any>>;
+}
 
+const Login: React.FC<LoginProps> = ({ user, setUser }) => {
     const handleLogin = () => {
-        window.location.href = 'http://localhost:8000/api/login/oauth2/authorization/google ';
+        window.location.href = 'http://localhost:8000/api/login/oauth2/authorization/google';
     };
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/api/login', {
-                    credentials: 'include',
-
-                });
-                if (response.ok) {
-                    const userData = await response.json();
-                    console.log('User data:', userData);
-                    setUser(userData);
-                }
-            } catch (error) {
-                console.error('Error fetching user:', error);
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/api/login/logout', {
+                method: 'POST',
+                credentials: 'include',
+            });
+            if (response.ok) {
+                setUser(null);
+            } else {
+                console.error('Logout failed');
             }
-        };
-
-        fetchUser();
-    }, []);
+        } catch (error) {
+            console.error('Error logging out:', error);
+        }
+    };
 
     return (
         <div>
@@ -34,6 +33,7 @@ const Login: React.FC = () => {
                 <div>
                     <h2>Welcome, {user.fullName}</h2>
                     <p>Email: {user.email}</p>
+                    <button onClick={handleLogout}>Logout</button>
                 </div>
             )}
         </div>

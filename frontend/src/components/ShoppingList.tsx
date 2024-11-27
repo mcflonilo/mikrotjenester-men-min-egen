@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import BackButton from "./BackButton.tsx";
+import BackButton from './BackButton';
 
 interface Recipe {
     id: number;
@@ -49,9 +49,10 @@ interface NutritionalData {
 interface ShoppingListProps {
     shoppingList: Recipe[];
     handleRemoveFromShoppingList: (recipeId: number) => void;
+    user: any;
 }
 
-const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppingList, handleRemoveFromShoppingList }) => {
+const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppingList, handleRemoveFromShoppingList, user }) => {
     const [shoppingList, setShoppingList] = useState<Recipe[]>(initialShoppingList);
     const [expandedRecipeId, setExpandedRecipeId] = useState<number | null>(null);
     const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
@@ -110,7 +111,7 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(combinedList),
+                body: JSON.stringify({ text: combinedList, to: user.email ,subject: 'Shopping List' }),
             });
             if (!shoppingListResponse.ok) {
                 throw new Error('Network response was not ok');

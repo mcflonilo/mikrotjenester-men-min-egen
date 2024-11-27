@@ -19,15 +19,20 @@ public class ShoppingListController {
     private RabbitTemplate rabbitTemplate;
 
     @PostMapping
-    public Map<String, Integer> createShoppingList(@RequestBody List<Map<String, Object>> ingredients, @RequestParam(required = false) boolean sendToRabbitMQ) {
-        Map<String, Integer> consolidatedIngredients = shoppingListService.consolidateIngredients(ingredients);
-        System.out.println(consolidatedIngredients);
+    public Map<String, Integer> createShoppingList(@RequestBody Map<String, Object> requestBody, @RequestParam(required = false) boolean sendToRabbitMQ) {
+        List<Map<String, Object>> ingredientsList = (List<Map<String, Object>>) requestBody.get("text");
+        String email = (String) requestBody.get("to");
+        String subject = (String) requestBody.get("subject");
+
+        Map<String, Integer> consolidatedIngredients = shoppingListService.consolidateIngredients(ingredientsList);
+        String formattedIngredients = shoppingListService.formatIngredientsForEmail(consolidatedIngredients);
+        System.out.println(formattedIngredients);
 
         if (sendToRabbitMQ) {
             Map<String, Object> rabbitMQMessage = Map.of(
-                    "to", "lm.opheim39@gmail.com",
-                    "subject", "Shopping List",
-                    "text", consolidatedIngredients.toString()
+                    "to", email,
+                    "subject", subject,
+                    "text", formattedIngredients
             );
             rabbitTemplate.convertAndSend("shoppingListQueue", rabbitMQMessage);
             System.out.println(rabbitMQMessage);

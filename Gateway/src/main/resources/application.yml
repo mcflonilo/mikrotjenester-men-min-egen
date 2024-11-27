@@ -43,6 +43,7 @@ spring:
             - Path=/api/login/**
           filters:
             - StripPrefix=0
+            - name: AddAuthHeaderFilter
       globalcors:
         cors-configurations:
           '[/**]':

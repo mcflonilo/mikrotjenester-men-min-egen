@@ -5,9 +5,9 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import FetchRecipes from './components/FetchRecipes';
 import CreateRecipe from './components/CreateRecipe';
 import { NavProvider, useNav } from './NavContext';
-import ShoppingList from "./components/ShoppingList.tsx";
-import {useState} from "react";
-import Login from "./components/Login.tsx";
+import ShoppingList from "./components/ShoppingList";
+import { useEffect, useState } from "react";
+import Login from "./components/Login";
 
 interface Recipe {
     id: number;
@@ -31,6 +31,26 @@ const App: React.FC = () => {
 const AppContent: React.FC = () => {
     const { showNav, setShowNav } = useNav();
     const [shoppingList, setShoppingList] = useState<Recipe[]>([]);
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/login', {
+                    credentials: 'include',
+                });
+                if (response.ok) {
+                    const userData = await response.json();
+                    console.log('User data:', userData);
+                    setUser(userData);
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        };
+
+        fetchUser();
+    }, []);
 
     const handleLinkClick = () => {
         setShowNav(false);
@@ -49,7 +69,7 @@ const AppContent: React.FC = () => {
             {showNav && (
                 <nav>
                     <ul>
-                        <Login/>
+                        <Login user={user} setUser={setUser} />
                         <li>
                             <Link to="/recipes" onClick={handleLinkClick}>Browse Recipes</Link>
                         </li>
@@ -65,7 +85,7 @@ const AppContent: React.FC = () => {
             <Routes>
                 <Route path="/recipes" element={<FetchRecipes handleAddToShoppingList={handleAddToShoppingList} />} />
                 <Route path="/create" element={<CreateRecipe />} />
-                <Route path="/shopping-list" element={<ShoppingList shoppingList={shoppingList} handleRemoveFromShoppingList={handleRemoveFromShoppingList} />} />
+                <Route path="/shopping-list" element={<ShoppingList shoppingList={shoppingList} handleRemoveFromShoppingList={handleRemoveFromShoppingList} user={user} />} />
             </Routes>
         </div>
     );
