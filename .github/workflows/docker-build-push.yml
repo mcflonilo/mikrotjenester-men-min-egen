@@ -15,7 +15,19 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}'
+
+      - name: Check which directories have changes
+        id: check_changes
+        run: |
+          echo "::set-output name=frontend::$(git diff --name-only HEAD^ HEAD | grep '^frontend/' || echo 'false')"
+          echo "::set-output name=emailservice::$(git diff --name-only HEAD^ HEAD | grep '^EmailService/' || echo 'false')"
+          echo "::set-output name=foodfetcher::$(git diff --name-only HEAD^ HEAD | grep '^FoodFetcher/' || echo 'false')"
+          echo "::set-output name=gateway::$(git diff --name-only HEAD^ HEAD | grep '^Gateway/' || echo 'false')"
+          echo "::set-output name=loginservice::$(git diff --name-only HEAD^ HEAD | grep '^LoginService/' || echo 'false')"
+          echo "::set-output name=recipeservice::$(git diff --name-only HEAD^ HEAD | grep '^RecipeService/' || echo 'false')"
+          echo "::set-output name=shoppinglistservice::$(git diff --name-only HEAD^ HEAD | grep '^ShoppingListService/' || echo 'false')"
+
 
       - name: Build frontend
         run: |
@@ -65,13 +77,3 @@ jobs:
           docker build -t mcflonilo/mikrotjenestereksamen:shoppinglistservice ./ShoppingListService
           docker push mcflonilo/mikrotjenestereksamen:shoppinglistservice
 
-      - name: Check which directories have changes
-        id: check_changes
-        run: |
-          echo "::set-output name=frontend::$(git diff --name-only HEAD^ HEAD | grep '^frontend/' || echo 'false')"
-          echo "::set-output name=emailservice::$(git diff --name-only HEAD^ HEAD | grep '^EmailService/' || echo 'false')"
-          echo "::set-output name=foodfetcher::$(git diff --name-only HEAD^ HEAD | grep '^FoodFetcher/' || echo 'false')"
-          echo "::set-output name=gateway::$(git diff --name-only HEAD^ HEAD | grep '^Gateway/' || echo 'false')"
-          echo "::set-output name=loginservice::$(git diff --name-only HEAD^ HEAD | grep '^LoginService/' || echo 'false')"
-          echo "::set-output name=recipeservice::$(git diff --name-only HEAD^ HEAD | grep '^RecipeService/' || echo 'false')"
-          echo "::set-output name=shoppinglistservice::$(git diff --name-only HEAD^ HEAD | grep '^ShoppingListService/' || echo 'false')"
