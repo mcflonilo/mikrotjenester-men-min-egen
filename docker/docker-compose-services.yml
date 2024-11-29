@@ -1,12 +1,12 @@
 services:
 
   frontend:
-    image: testimageplisdukkopp
+    image: mcflonilo/mikrotjenestereksamen:frontend
     ports:
       - '3000:80'
 
   emailservice:
-    image: docker-emailservice:1
+    image: mcflonilo/mikrotjenestereksamen:emailservice
     ports:
       - '8083:8080'
     environment:
@@ -19,9 +19,7 @@ services:
       - micro_food
 
   foodfetcher:
-    build:
-      context: ../FoodFetcher
-      dockerfile: Dockerfile
+    image: mcflonilo/mikrotjenestereksamen:foodfetcher
     ports:
       - '8081:8080'
     environment:
@@ -34,7 +32,7 @@ services:
       - micro_food
 
   shoppinglist:
-    image: docker-shoppinglistservice:1
+    image: mcflonilo/mikrotjenestereksamen:shoppinglistservice
     ports:
       - '8082:8080'
     environment:
@@ -47,7 +45,7 @@ services:
       - micro_food
 
   recipeservice:
-    image: recipeservice:latest
+    image: mcflonilo/mikrotjenestereksamen:recipeservice
     ports:
       - '8084:8080'
     environment:
@@ -60,7 +58,7 @@ services:
       - micro_food
 
   gateway:
-    image: gateway:latest
+    image: mcflonilo/mikrotjenestereksamen:gateway
     ports:
       - '8000:8000'
     environment:
@@ -73,7 +71,7 @@ services:
       - micro_food
 
   loginservice:
-    image: docker-loginservice:latest
+    image: mcflonilo/mikrotjenestereksamen:loginservice
     ports:
       - '8080:8000'
     environment:
