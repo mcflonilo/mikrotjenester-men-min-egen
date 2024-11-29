@@ -3,7 +3,7 @@ name: Build and Push Docker Images
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -20,50 +20,36 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push frontend service
-        with:
-          context: ./frontend
         run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:frontend .
+          docker build -t mcflonilo/mikrotjenestereksamen:frontend ./frontend
           docker push mcflonilo/mikrotjenestereksamen:frontend
 
-      - name: Build and push emailservice
-        with:
-          context: ./EmailService
+      - name: Build and push email service
         run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:emailservice .
+          docker build -t mcflonilo/mikrotjenestereksamen:emailservice ./EmailService
           docker push mcflonilo/mikrotjenestereksamen:emailservice
 
-      - name: Build and push FoodFetcher
-        with:
-          context: ./FoodFetcher
+      - name: Build and push food fetcher
         run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:foodfetcher .
+          docker build -t mcflonilo/mikrotjenestereksamen:foodfetcher ./FoodFetcher
           docker push mcflonilo/mikrotjenestereksamen:foodfetcher
 
-      - name: Build and push Gateway
-        with:
-          context: ./Gateway
+      - name: Build and push gateway
         run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:gateway .
+          docker build -t mcflonilo/mikrotjenestereksamen:gateway ./Gateway
           docker push mcflonilo/mikrotjenestereksamen:gateway
 
-      - name: Build and push LoginService
-        with:
-          context: ./LoginService
+      - name: Build and push login service
         run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:loginservice .
+          docker build -t mcflonilo/mikrotjenestereksamen:loginservice ./LoginService
           docker push mcflonilo/mikrotjenestereksamen:loginservice
 
-      - name: Build and push RecipeService
-        with:
-          context: ./RecipeService
+      - name: Build and push recipe service
         run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:recipeservice .
+          docker build -t mcflonilo/mikrotjenestereksamen:recipeservice ./RecipeService
           docker push mcflonilo/mikrotjenestereksamen:recipeservice
 
-      - name: Build and push ShoppingListService
-        with:
-          context: ./ShoppingListService
+      - name: Build and push shopping list service
         run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:shoppinglistService .
-          docker push mcflonilo/mikrotjenestereksamen:shoppinglistService
+          docker build -t mcflonilo/mikrotjenestereksamen:shoppinglistservice ./ShoppingListService
+          docker push mcflonilo/mikrotjenestereksamen:shoppinglistservice
