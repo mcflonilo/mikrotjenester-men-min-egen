@@ -114,7 +114,7 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                 body: JSON.stringify({ text: combinedList, to: user ? user.email : 'guest@example.com', subject: 'Shopping List' }),
             });
             if (!shoppingListResponse.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Network response was not ok :(');
             }
             const data = await shoppingListResponse.json();
             console.log('Shopping list created:', data);
