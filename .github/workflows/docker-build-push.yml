@@ -1,3 +1,5 @@
+name: Build and Push Docker Images
+
 on:
   push:
     branches:
@@ -11,69 +13,65 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Fetch full Git history
+        run: git fetch --unshallow || true
+
+      - name: Determine changed directories
+        id: check_changes
+        run: |
+          if git diff --name-only HEAD^ HEAD | grep '^frontend/'; then echo "frontend=true" >> $GITHUB_ENV; else echo "frontend=false" >> $GITHUB_ENV; fi
+          if git diff --name-only HEAD^ HEAD | grep '^EmailService/'; then echo "emailservice=true" >> $GITHUB_ENV; else echo "emailservice=false" >> $GITHUB_ENV; fi
+          if git diff --name-only HEAD^ HEAD | grep '^FoodFetcher/'; then echo "foodfetcher=true" >> $GITHUB_ENV; else echo "foodfetcher=false" >> $GITHUB_ENV; fi
+          if git diff --name-only HEAD^ HEAD | grep '^Gateway/'; then echo "gateway=true" >> $GITHUB_ENV; else echo "gateway=false" >> $GITHUB_ENV; fi
+          if git diff --name-only HEAD^ HEAD | grep '^LoginService/'; then echo "loginservice=true" >> $GITHUB_ENV; else echo "loginservice=false" >> $GITHUB_ENV; fi
+          if git diff --name-only HEAD^ HEAD | grep '^RecipeService/'; then echo "recipeservice=true" >> $GITHUB_ENV; else echo "recipeservice=false" >> $GITHUB_ENV; fi
+          if git diff --name-only HEAD^ HEAD | grep '^ShoppingListService/'; then echo "shoppinglistservice=true" >> $GITHUB_ENV; else echo "shoppinglistservice=false" >> $GITHUB_ENV; fi
+        shell: bash
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Check which directories have changes
-        id: check_changes
-        run: |
-          echo "::set-output name=frontend::$(git diff --name-only HEAD^ HEAD | grep '^frontend/' || echo 'false')"
-          echo "::set-output name=emailservice::$(git diff --name-only HEAD^ HEAD | grep '^EmailService/' || echo 'false')"
-          echo "::set-output name=foodfetcher::$(git diff --name-only HEAD^ HEAD | grep '^FoodFetcher/' || echo 'false')"
-          echo "::set-output name=gateway::$(git diff --name-only HEAD^ HEAD | grep '^Gateway/' || echo 'false')"
-          echo "::set-output name=loginservice::$(git diff --name-only HEAD^ HEAD | grep '^LoginService/' || echo 'false')"
-          echo "::set-output name=recipeservice::$(git diff --name-only HEAD^ HEAD | grep '^RecipeService/' || echo 'false')"
-          echo "::set-output name=shoppinglistservice::$(git diff --name-only HEAD^ HEAD | grep '^ShoppingListService/' || echo 'false')"
-
-
-      - name: Build frontend
-        run: |
-          cd ./frontend
-          npm install
-          npm run build
-
       - name: Build and push frontend service
-        if: ${{ contains(github.event.head_commit.message, 'frontend') || steps.check_changes.outputs.frontend == 'true' }}
+        if: env.frontend == 'true'
         run: |
           docker build -t mcflonilo/mikrotjenestereksamen:frontend ./frontend
           docker push mcflonilo/mikrotjenestereksamen:frontend
 
       - name: Build and push email service
-        if: ${{ steps.check_changes.outputs.emailservice == 'true' }}
+        if: env.emailservice == 'true'
         run: |
           docker build -t mcflonilo/mikrotjenestereksamen:emailservice ./EmailService
           docker push mcflonilo/mikrotjenestereksamen:emailservice
 
       - name: Build and push food fetcher
-        if: ${{ steps.check_changes.outputs.foodfetcher == 'true' }}
+        if: env.foodfetcher == 'true'
         run: |
           docker build -t mcflonilo/mikrotjenestereksamen:foodfetcher ./FoodFetcher
           docker push mcflonilo/mikrotjenestereksamen:foodfetcher
 
       - name: Build and push gateway
-        if: ${{ steps.check_changes.outputs.gateway == 'true' }}
+        if: env.gateway == 'true'
         run: |
           docker build -t mcflonilo/mikrotjenestereksamen:gateway ./Gateway
           docker push mcflonilo/mikrotjenestereksamen:gateway
 
       - name: Build and push login service
-        if: ${{ steps.check_changes.outputs.loginservice == 'true' }}
+        if: env.loginservice == 'true'
         run: |
           docker build -t mcflonilo/mikrotjenestereksamen:loginservice ./LoginService
           docker push mcflonilo/mikrotjenestereksamen:loginservice
 
       - name: Build and push recipe service
-        if: ${{ steps.check_changes.outputs.recipeservice == 'true' }}
+        if: env.recipeservice == 'true'
         run: |
           docker build -t mcflonilo/mikrotjenestereksamen:recipeservice ./RecipeService
           docker push mcflonilo/mikrotjenestereksamen:recipeservice
 
       - name: Build and push shopping list service
-        if: ${{ steps.check_changes.outputs.shoppinglistservice == 'true' }}
+        if: env.shoppinglistservice == 'true'
         run: |
           docker build -t mcflonilo/mikrotjenestereksamen:shoppinglistservice ./ShoppingListService
           docker push mcflonilo/mikrotjenestereksamen:shoppinglistservice
-
