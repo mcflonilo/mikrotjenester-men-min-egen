@@ -10,46 +10,52 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push frontend service
-        run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:frontend ./frontend
-          docker push mcflonilo/mikrotjenestereksamen:frontend
+    - name: Build frontend
+      run: |
+        cd ./frontend
+        npm install
+        npm run build
 
-      - name: Build and push email service
-        run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:emailservice ./EmailService
-          docker push mcflonilo/mikrotjenestereksamen:emailservice
+    - name: Build and push frontend service
+      run: |
+        docker build -t mcflonilo/mikrotjenestereksamen:frontend ./frontend
+        docker push mcflonilo/mikrotjenestereksamen:frontend
 
-      - name: Build and push food fetcher
-        run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:foodfetcher ./FoodFetcher
-          docker push mcflonilo/mikrotjenestereksamen:foodfetcher
+    - name: Build and push email service
+      run: |
+        docker build -t mcflonilo/mikrotjenestereksamen:emailservice ./EmailService
+        docker push mcflonilo/mikrotjenestereksamen:emailservice
 
-      - name: Build and push gateway
-        run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:gateway ./Gateway
-          docker push mcflonilo/mikrotjenestereksamen:gateway
+    - name: Build and push food fetcher
+      run: |
+        docker build -t mcflonilo/mikrotjenestereksamen:foodfetcher ./FoodFetcher
+        docker push mcflonilo/mikrotjenestereksamen:foodfetcher
 
-      - name: Build and push login service
-        run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:loginservice ./LoginService
-          docker push mcflonilo/mikrotjenestereksamen:loginservice
+    - name: Build and push gateway
+      run: |
+        docker build -t mcflonilo/mikrotjenestereksamen:gateway ./Gateway
+        docker push mcflonilo/mikrotjenestereksamen:gateway
 
-      - name: Build and push recipe service
-        run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:recipeservice ./RecipeService
-          docker push mcflonilo/mikrotjenestereksamen:recipeservice
+    - name: Build and push login service
+      run: |
+        docker build -t mcflonilo/mikrotjenestereksamen:loginservice ./LoginService
+        docker push mcflonilo/mikrotjenestereksamen:loginservice
 
-      - name: Build and push shopping list service
-        run: |
-          docker build -t mcflonilo/mikrotjenestereksamen:shoppinglistservice ./ShoppingListService
-          docker push mcflonilo/mikrotjenestereksamen:shoppinglistservice
+    - name: Build and push recipe service
+      run: |
+        docker build -t mcflonilo/mikrotjenestereksamen:recipeservice ./RecipeService
+        docker push mcflonilo/mikrotjenestereksamen:recipeservice
+
+    - name: Build and push shopping list service
+      run: |
+        docker build -t mcflonilo/mikrotjenestereksamen:shoppinglistservice ./ShoppingListService
+        docker push mcflonilo/mikrotjenestereksamen:shoppinglistservice
