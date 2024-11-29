@@ -23,6 +23,7 @@ public class ShoppingListController {
         List<Map<String, Object>> ingredientsList = (List<Map<String, Object>>) requestBody.get("text");
         String email = (String) requestBody.get("to");
         String subject = (String) requestBody.get("subject");
+        System.out.println(ingredientsList);
 
         Map<String, Integer> consolidatedIngredients = shoppingListService.consolidateIngredients(ingredientsList);
         String formattedIngredients = shoppingListService.formatIngredientsForEmail(consolidatedIngredients);
