@@ -1,22 +1,89 @@
 services:
 
-  #frontend:
-    #image: front:1.0
-    #ports:
-    #  - '3000:80'
+  frontend:
+    image: testimageplisdukkopp
+    ports:
+      - '3000:80'
 
-  #gateway:
-  #  image: gateway:0.0.1-SNAPSHOT
-  #  ports:
-  #    - '8000:8000'
-  #  environment:
-  #    - SPRING_PROFILES_ACTIVE=docker
-  #    - SPRING_CLOUD_CONSUL_HOST=consul
-  #  depends_on:
-  #    - rabbitmq-dev
-  #    - consul-importer
-  #  networks:
-   #   - micro_cards
+  emailservice:
+    image: docker-emailservice:1
+    ports:
+      - '8083:8080'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul
+    depends_on:
+      - consul-importer
+      - rabbitmq-dev
+    networks:
+      - micro_food
+
+  foodfetcher:
+    build:
+      context: ../FoodFetcher
+      dockerfile: Dockerfile
+    ports:
+      - '8081:8080'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul-dev
+    depends_on:
+      - consul-dev
+      - rabbitmq-dev
+    networks:
+      - micro_food
+
+  shoppinglist:
+    image: docker-shoppinglistservice:1
+    ports:
+      - '8082:8080'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul-dev
+    depends_on:
+      - consul-dev
+      - rabbitmq-dev
+    networks:
+      - micro_food
+
+  recipeservice:
+    image: recipeservice:latest
+    ports:
+      - '8084:8080'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul
+    depends_on:
+      - consul-importer
+      - rabbitmq-dev
+    networks:
+      - micro_food
+
+  gateway:
+    image: gateway:latest
+    ports:
+      - '8000:8000'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul
+    depends_on:
+      - rabbitmq-dev
+      - consul-importer
+    networks:
+      - micro_food
+
+  loginservice:
+    image: docker-loginservice:latest
+    ports:
+      - '8080:8000'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul
+    depends_on:
+      - rabbitmq-dev
+      - consul-importer
+    networks:
+      - micro_food
 
   consul-dev:
     image: hashicorp/consul:1.19.2
@@ -26,14 +93,14 @@ services:
       - '8600:8600/udp'
     command: 'agent -dev -node=cards -client=0.0.0.0 -log-level=INFO'
     networks:
-      - micro_cards
+      - micro_food
 
   consul-importer:
     image: consul-importer:1.19.2
     depends_on:
       - consul-dev
     networks:
-      - micro_cards
+      - micro_food
 
   rabbitmq-dev:
     image: rabbitmq:3-management
@@ -42,8 +109,8 @@ services:
       - '5672:5672'
       - '15672:15672'
     networks:
-      - micro_cards
+      - micro_food
 
 networks:
-  micro_cards:
+  micro_food:
     driver: bridge

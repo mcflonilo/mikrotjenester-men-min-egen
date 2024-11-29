@@ -8,10 +8,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>RecipeService</artifactId>
+    <artifactId>FoodFetcher</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>RecipeService</name>
-    <description>RecipeService</description>
+    <name>FoodFetcher</name>
+    <description>FoodFetcher</description>
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>

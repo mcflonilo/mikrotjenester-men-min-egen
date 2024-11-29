@@ -111,7 +111,7 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ text: combinedList, to: user.email ,subject: 'Shopping List' }),
+                body: JSON.stringify({ text: combinedList, to: user ? user.email : 'guest@example.com', subject: 'Shopping List' }),
             });
             if (!shoppingListResponse.ok) {
                 throw new Error('Network response was not ok');
@@ -157,9 +157,15 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                             </li>
                         ))}
                     </ul>
-                    <button onClick={() => handleCreateCompleteShoppingList(false)}>Create Complete Shopping List
-                    </button>
-                    <button onClick={() => handleCreateCompleteShoppingList(true)}>Create and Send to RabbitMQ</button>
+                    <button onClick={() => handleCreateCompleteShoppingList(false)}>Create Complete Shopping List</button>
+                    {user ? (
+                        <button onClick={() => handleCreateCompleteShoppingList(true)}>Create and Send as Email</button>
+                    ) : (
+                        <div>
+                            <button disabled>Create and Send as Email</button>
+                            <p>You need to log in to send to email</p>
+                        </div>
+                    )}
                 </div>
             )}
             {returnedShoppingList && (
@@ -170,8 +176,8 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                             <li key={foodName}>
                                 <p>{foodName}: {quantity}</p>
                             </li>
-                        ))}</ul>
-
+                        ))}
+                    </ul>
                 </div>
             )}
         </div>
