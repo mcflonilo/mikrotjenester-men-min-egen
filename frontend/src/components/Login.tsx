@@ -7,7 +7,7 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({ user, setUser }) => {
     const handleLogin = () => {
-        window.location.href = 'http://localhost:8080/api/login/oauth2/authorization/google';
+        window.location.href = 'http://localhost:8000/api/login/oauth2/authorization/google';
     };
 
     const handleLogout = async () => {

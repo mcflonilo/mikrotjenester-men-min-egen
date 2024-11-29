@@ -2,6 +2,7 @@
 
 package com.example.loginservice.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,8 +13,10 @@ import jakarta.servlet.http.HttpSession;
 public class UserController {
 
     @GetMapping("/api/login")
-    public OidcUser getUser(HttpSession session) {
+    public OidcUser getUser(HttpServletRequest request, HttpSession session) {
+        System.out.println("Full Request URI: " + request.getRequestURI());
         System.out.println("User details: " + session.getAttribute("user"));
+
         return (OidcUser) session.getAttribute("user");
     }
 }
