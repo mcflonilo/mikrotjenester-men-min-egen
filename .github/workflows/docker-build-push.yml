@@ -3,18 +3,15 @@ name: Build and Push Docker Images
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
-  build-and-push:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Docker Build
-        uses: docker/setup-buildx-action@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -22,37 +19,51 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push frontend image
-        uses: docker/build-push-action@v4
+      - name: Build and push frontend service
         with:
           context: ./frontend
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}frontend:latest
+        run: |
+          docker build -t mcflonilo/mikrotjenestereksamen:frontend .
+          docker push mcflonilo/mikrotjenestereksamen:frontend
 
-      - name: Build and push gateway image
-        uses: docker/build-push-action@v4
+      - name: Build and push emailservice
         with:
-          context: ./gateway
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}gateway:latest
+          context: ./EmailService
+        run: |
+          docker build -t mcflonilo/mikrotjenestereksamen:emailservice .
+          docker push mcflonilo/mikrotjenestereksamen:emailservice
 
-      - name: Build and push loginservice image
-        uses: docker/build-push-action@v4
+      - name: Build and push FoodFetcher
+        with:
+          context: ./FoodFetcher
+        run: |
+          docker build -t mcflonilo/mikrotjenestereksamen:foodfetcher .
+          docker push mcflonilo/mikrotjenestereksamen:foodfetcher
+
+      - name: Build and push Gateway
+        with:
+          context: ./Gateway
+        run: |
+          docker build -t mcflonilo/mikrotjenestereksamen:gateway .
+          docker push mcflonilo/mikrotjenestereksamen:gateway
+
+      - name: Build and push LoginService
         with:
           context: ./LoginService
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}loginservice:latest
+        run: |
+          docker build -t mcflonilo/mikrotjenestereksamen:loginservice .
+          docker push mcflonilo/mikrotjenestereksamen:loginservice
 
-      - name: Build and push shoppinglistservice image
-        uses: docker/build-push-action@v4
-        with:
-          context: ./ShoppingListService
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}shoppinglistservice:latest
-
-      - name: Build and push recipeservice image
-        uses: docker/build-push-action@v4
+      - name: Build and push RecipeService
         with:
           context: ./RecipeService
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}recipeservice:latest
+        run: |
+          docker build -t mcflonilo/mikrotjenestereksamen:recipeservice .
+          docker push mcflonilo/mikrotjenestereksamen:recipeservice
+
+      - name: Build and push ShoppingListService
+        with:
+          context: ./ShoppingListService
+        run: |
+          docker build -t mcflonilo/mikrotjenestereksamen:shoppinglistService .
+          docker push mcflonilo/mikrotjenestereksamen:shoppinglistService
