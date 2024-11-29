@@ -27,32 +27,32 @@ jobs:
         with:
           context: ./frontend
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/frontend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}frontend:latest
 
       - name: Build and push gateway image
         uses: docker/build-push-action@v4
         with:
           context: ./gateway
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/gateway:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}gateway:latest
 
       - name: Build and push loginservice image
         uses: docker/build-push-action@v4
         with:
           context: ./LoginService
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/loginservice:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}loginservice:latest
 
       - name: Build and push shoppinglistservice image
         uses: docker/build-push-action@v4
         with:
           context: ./ShoppingListService
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/shoppinglistservice:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}shoppinglistservice:latest
 
       - name: Build and push recipeservice image
         uses: docker/build-push-action@v4
         with:
           context: ./RecipeService
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/recipeservice:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}recipeservice:latest
