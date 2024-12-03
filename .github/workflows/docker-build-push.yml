@@ -26,6 +26,7 @@ jobs:
           if git diff --name-only HEAD^ HEAD | grep '^LoginService/'; then echo "loginservice=true" >> $GITHUB_ENV; else echo "loginservice=false" >> $GITHUB_ENV; fi
           if git diff --name-only HEAD^ HEAD | grep '^RecipeService/'; then echo "recipeservice=true" >> $GITHUB_ENV; else echo "recipeservice=false" >> $GITHUB_ENV; fi
           if git diff --name-only HEAD^ HEAD | grep '^ShoppingListService/'; then echo "shoppinglistservice=true" >> $GITHUB_ENV; else echo "shoppinglistservice=false" >> $GITHUB_ENV; fi
+          if git diff --name-only HEAD^ HEAD | grep '^UserService/'; then echo "userservice=true" >> $GITHUB_ENV; else echo "userservice=false" >> $GITHUB_ENV; fi
         shell: bash
 
       - name: Log in to Docker Hub
@@ -75,3 +76,9 @@ jobs:
         run: |
           docker build -t mcflonilo/mikrotjenestereksamen:shoppinglistservice ./ShoppingListService
           docker push mcflonilo/mikrotjenestereksamen:shoppinglistservice
+
+      - name: Build and push user service
+        if: env.userservice == 'true'
+        run: |
+          docker build -t mcflonilo/mikrotjenestereksamen:userservice ./UserService
+          docker push mcflonilo/mikrotjenestereksamen:userservice

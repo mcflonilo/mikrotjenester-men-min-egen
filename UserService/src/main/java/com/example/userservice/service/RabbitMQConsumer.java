@@ -16,7 +16,7 @@ public class RabbitMQConsumer {
 
     @RabbitListener(queues = "favoriteQueue")
     public void receiveMessage(Favorite favorite) {
-        System.out.println("Received favorite: " + favorite.getRecipeId());
+        System.out.println("Received favorite: :)" + favorite.getRecipeId());
         favoriteRepository.save(favorite);
     }
 }

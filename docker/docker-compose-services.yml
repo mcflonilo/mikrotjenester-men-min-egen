@@ -92,6 +92,20 @@ services:
       - micro_food
     pull_policy: always
 
+  userservice:
+    image: mcflonilo/mikrotjenestereksamen:userservice
+    ports:
+      - '8085:8000'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul
+    depends_on:
+      - rabbitmq-dev
+      - consul-importer
+    networks:
+      - micro_food
+    pull_policy: always
+
   consul-dev:
     image: hashicorp/consul:1.19.2
     container_name: consul
