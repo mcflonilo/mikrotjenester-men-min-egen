@@ -23,7 +23,6 @@ const allergyOptions = [
 const FetchRecipes: React.FC<FetchRecipesProps> = ({ handleAddToShoppingList }) => {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
-    const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [allergyFilters, setAllergyFilters] = useState<string[]>([]);
@@ -46,11 +45,6 @@ const FetchRecipes: React.FC<FetchRecipesProps> = ({ handleAddToShoppingList }) 
     useEffect(() => {
         filterRecipes();
     }, [searchTerm, allergyFilters, recipes]);
-
-    const handleRecipeClick = (recipe: Recipe) => {
-        setSelectedRecipe(recipe);
-        setRecipes([]); // Clear the recipes
-    };
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -85,7 +79,7 @@ const FetchRecipes: React.FC<FetchRecipesProps> = ({ handleAddToShoppingList }) 
     return (
         <div>
             <BackButton />
-            {selectedRecipe === null && <h2>Recipes</h2>}
+            <h2>Recipes</h2>
             <div>
                 <input
                     type="text"
@@ -115,13 +109,10 @@ const FetchRecipes: React.FC<FetchRecipesProps> = ({ handleAddToShoppingList }) 
                 <ul>
                     {filteredRecipes.map(recipe => (
                         <li key={recipe.id}>
-                            <span onClick={() => handleRecipeClick(recipe)}>{recipe.name}</span>
+                            <RecipeDetails recipe={recipe} handleAddToShoppingList={handleAddToShoppingList} />
                         </li>
                     ))}
                 </ul>
-            )}
-            {selectedRecipe && (
-                <RecipeDetails recipe={selectedRecipe} handleAddToShoppingList={handleAddToShoppingList} />
             )}
         </div>
     );

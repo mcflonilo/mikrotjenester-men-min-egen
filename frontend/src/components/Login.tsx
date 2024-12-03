@@ -1,11 +1,9 @@
 import React from 'react';
+import { useUser } from './UserContext';
 
-interface LoginProps {
-    user: any;
-    setUser: React.Dispatch<React.SetStateAction<any>>;
-}
+const Login: React.FC = () => {
+    const { user, setUser } = useUser();
 
-const Login: React.FC<LoginProps> = ({ user, setUser }) => {
     const handleLogin = () => {
         window.location.href = 'http://localhost:8000/api/login/oauth2/authorization/google';
     };

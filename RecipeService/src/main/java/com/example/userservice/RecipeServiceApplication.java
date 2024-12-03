@@ -1,7 +1,7 @@
-package com.example.recipeservice;
+package com.example.userservice;
 
-import com.example.recipeservice.model.Recipe;
-import com.example.recipeservice.repository.RecipeRepository;
+import com.example.userservice.model.Recipe;
+import com.example.userservice.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -1,6 +1,6 @@
-// File: RecipeService/src/main/java/com/example/recipeservice/config/RabbitMQConfig.java
+// File: UserService/src/main/java/com/example/userservice/config/RabbitMQConfig.java
 
-package com.example.recipeservice.config;
+package com.example.userservice.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -13,11 +13,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String QUEUE_NAME = "recipeQueue";
+    public static final String FAVORITE_QUEUE = "favoriteQueue";
+
 
     @Bean
-    public Queue recipeQueue() {
-        return new Queue(QUEUE_NAME, true);
+    public Queue favoriteQueue() {
+        return new Queue(FAVORITE_QUEUE, true);
     }
 
     @Bean

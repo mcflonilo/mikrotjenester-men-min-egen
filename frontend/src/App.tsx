@@ -8,6 +8,8 @@ import { NavProvider, useNav } from './NavContext';
 import ShoppingList from "./components/ShoppingList";
 import { useEffect, useState } from "react";
 import Login from "./components/Login";
+import {UserProvider, useUser} from './components/UserContext';
+import UserPage from "./components/UserPage.tsx";
 
 interface Recipe {
     id: number;
@@ -21,17 +23,19 @@ interface Recipe {
 const App: React.FC = () => {
     return (
         <NavProvider>
-            <Router>
-                <AppContent />
-            </Router>
+            <UserProvider>
+                <Router>
+                    <AppContent />
+                </Router>
+            </UserProvider>
         </NavProvider>
     );
 };
 
 const AppContent: React.FC = () => {
     const { showNav, setShowNav } = useNav();
+    const { user, setUser } = useUser();
     const [shoppingList, setShoppingList] = useState<Recipe[]>([]);
-    const [user, setUser] = useState<any>(null);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -50,7 +54,7 @@ const AppContent: React.FC = () => {
         };
 
         fetchUser();
-    }, []);
+    }, [setUser]);
 
     const handleLinkClick = () => {
         setShowNav(false);
@@ -69,7 +73,7 @@ const AppContent: React.FC = () => {
             {showNav && (
                 <nav>
                     <ul>
-                        <Login user={user} setUser={setUser} />
+                        <Login />
                         <li>
                             <Link to="/recipes" onClick={handleLinkClick}>Browse Recipes</Link>
                         </li>
@@ -79,6 +83,9 @@ const AppContent: React.FC = () => {
                         <li>
                             <Link to="/shopping-list" onClick={handleLinkClick}>Meal plan</Link>
                         </li>
+                        <li>
+                            <Link to="/user" onClick={handleLinkClick}>User</Link>
+                        </li>
                     </ul>
                 </nav>
             )}
@@ -86,9 +93,9 @@ const AppContent: React.FC = () => {
                 <Route path="/recipes" element={<FetchRecipes handleAddToShoppingList={handleAddToShoppingList} />} />
                 <Route path="/create" element={<CreateRecipe />} />
                 <Route path="/shopping-list" element={<ShoppingList shoppingList={shoppingList} handleRemoveFromShoppingList={handleRemoveFromShoppingList} user={user} />} />
+                <Route path="/user" element={<UserPage handleAddToShoppingList={handleAddToShoppingList} />} />
             </Routes>
         </div>
     );
 };
-
 export default App;

@@ -1,4 +1,4 @@
-package com.example.recipeservice.model;
+package com.example.userservice.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

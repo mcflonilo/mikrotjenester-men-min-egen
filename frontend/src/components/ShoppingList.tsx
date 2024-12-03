@@ -58,6 +58,8 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
     const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
     const [returnedShoppingList, setReturnedShoppingList] = useState<{ [key: number]: number } | null>(null);
     const [ingredients, setIngredients] = useState<NutritionalData[]>([]);
+    const [email, setEmail] = useState<string>('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
 
     const handleRecipeClick = async (recipeId: number) => {
         setExpandedRecipeId(expandedRecipeId === recipeId ? null : recipeId);
@@ -90,6 +92,19 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
     };
 
     const handleCreateCompleteShoppingList = async (sendToRabbitMQ: boolean) => {
+        if (!user && !email) {
+            setErrorMessage('You need to log in or write a valid email address');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!user && !emailRegex.test(email)) {
+            setErrorMessage('You need to write a valid email address');
+            return;
+        }
+
+        setErrorMessage('');
+
         try {
             const ingredientIds = shoppingList.flatMap(recipe => recipe.ingredientIds);
             const response = await fetch(`http://localhost:8000/api/food/${ingredientIds.join(',')}`);
@@ -111,7 +126,7 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ text: combinedList, to: user ? user.email : 'guest@example.com', subject: 'Shopping List' }),
+                body: JSON.stringify({ text: combinedList, to: email || (user ? user.email : 'guest@example.com'), subject: 'Shopping List' }),
             });
             if (!shoppingListResponse.ok) {
                 throw new Error('Network response was not ok :(');
@@ -157,15 +172,17 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                             </li>
                         ))}
                     </ul>
-                    <button onClick={() => handleCreateCompleteShoppingList(false)}>Create Complete Shopping List</button>
-                    {user ? (
-                        <button onClick={() => handleCreateCompleteShoppingList(true)}>Create and Send as Email</button>
-                    ) : (
-                        <div>
-                            <button disabled>Create and Send as Email</button>
-                            <p>You need to log in to send to email</p>
-                        </div>
+                    {!user && (
+                        <input
+                            type="email"
+                            placeholder="Enter email address"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     )}
+                    <button onClick={() => handleCreateCompleteShoppingList(false)}>Create Complete Shopping List</button>
+                    <button onClick={() => handleCreateCompleteShoppingList(true)}>Create and Send as Email</button>
+                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 </div>
             )}
             {returnedShoppingList && (

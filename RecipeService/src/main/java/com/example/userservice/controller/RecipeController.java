@@ -1,12 +1,13 @@
-package com.example.recipeservice.controller;
+package com.example.userservice.controller;
 
-import com.example.recipeservice.model.Recipe;
-import com.example.recipeservice.repository.RecipeRepository;
-import com.example.recipeservice.service.RabbitMQProducer;
+import com.example.userservice.model.Recipe;
+import com.example.userservice.repository.RecipeRepository;
+import com.example.userservice.service.RabbitMQProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RecipeController {
@@ -22,6 +23,17 @@ public class RecipeController {
         try {
             System.out.println("getRecipes");
             return recipeRepository.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    @GetMapping("/api/recipe/{id}")
+    public Recipe getRecipeById(@PathVariable Long id) {
+        try {
+            System.out.println("getRecipeById");
+            Optional<Recipe> recipe = recipeRepository.findById(id);
+            return recipe.orElse(null);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
