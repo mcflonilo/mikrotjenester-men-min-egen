@@ -18,30 +18,31 @@ By focusing on these elements, the website aims to not only make cooking easier 
 ### Architecture Diagram
 ![Architecture Diagram](https://github.com/user-attachments/assets/99f9bf73-d143-4cde-9c2d-a1e96e16eb66)
 
-#### Architecture Description
-The project follows a microservices architecture, with the following services:
-- **Gateway:** Serves as the single entry point, routing requests to the appropriate services and implementing load balancing for better performance.
-- **LoginService:** Handles user authentication and session management.
-- **RecipeService:** Manages the storage and retrieval of recipes, including filtering by user preferences.
-- **ShoppingListService:** Generates shopping lists based on selected recipes.
-- **UserService:** Handles user profiles and preferences, such as favorite recipes.
-- **FoodFetcher:** Retrieves and updates ingredient data from external sources.
-- **EmailService:** Sends notifications and recipe recommendations to users.
-
-Communication between services is as follows:
-- **Synchronous Communication:** RESTful API calls between services like Gateway and RecipeService.
-- **Asynchronous Communication:** Event-driven messaging using RabbitMQ for services like EmailService and ShoppingListService.
 
 ### Running the Project
 
 #### Prerequisites
 Ensure you have the following installed:
-- Docker and Docker Compose
-- Java 11 or higher
-- Maven
-- Node.js and npm
-- RabbitMQ
-- Consul
+
+
+   Java Development Kit (JDK)
+        Ensure you have Java JDK installed on your system.
+
+   Apache Maven
+        Install Apache Maven for building and managing Java projects.
+
+   Node.js and npm
+        Install Node.js and npm for running the frontend application.
+
+   Docker (optional)
+        Install Docker if you prefer running the services using Docker.
+
+   Consul
+        Install and configure Consul for service discovery.
+
+   RabbitMQ
+        Install and configure RabbitMQ for message brokering.
+
 
 #### Using Docker
 To run the project using Docker, execute the following commands in the root directory:
