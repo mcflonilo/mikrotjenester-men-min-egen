@@ -17,6 +17,7 @@ const CreateRecipe: React.FC = () => {
     const [ingredients, setIngredients] = useState<{ id: number; name: string; quantity: string }[]>([]);
     const [allergyTags, setAllergyTags] = useState<string[]>([]);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [successMessage, setSuccessMessage] = useState<string>('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -66,7 +67,7 @@ const CreateRecipe: React.FC = () => {
         return newErrors;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const newErrors = validate();
         if (Object.keys(newErrors).length > 0) {
@@ -75,14 +76,29 @@ const CreateRecipe: React.FC = () => {
         }
         const ingredientIds = ingredients.map(ingredient => ingredient.id);
         const quantity = ingredients.map(ingredient => ingredient.quantity);
-        fetch('http://localhost:8000/api/recipe', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, description, instructions, ingredientIds, quantity, allergyTags }),
-        });
-        console.log({ name, description, instructions, ingredientIds, quantity, allergyTags });
+        try {
+            const response = await fetch('http://localhost:8000/api/recipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, description, instructions, ingredientIds, quantity, allergyTags }),
+            });
+            if (response.ok) {
+                setSuccessMessage('Recipe created successfully');
+                setName('');
+                setDescription('');
+                setInstructions('');
+                setIngredients([]);
+                setAllergyTags([]);
+                setErrors({});
+                setTimeout(() => setSuccessMessage(''), 3000); // Clear the message after 3 seconds
+            } else {
+                console.error('Failed to create recipe');
+            }
+        } catch (error) {
+            console.error('Error creating recipe', error);
+        }
     };
 
     const customStyles = {
@@ -163,6 +179,7 @@ const CreateRecipe: React.FC = () => {
                 </div>
                 <button type="submit">Save Recipe</button>
             </form>
+            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
         </div>
     );
 };

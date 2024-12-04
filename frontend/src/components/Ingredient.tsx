@@ -30,7 +30,7 @@ const Ingredient: React.FC<IngredientProps> = ({ ingredient, quantity }) => {
             <span>
                 <h2 style={{ display: 'inline' }}>{ingredient.foodName}</h2>
                 {quantity !== undefined && (
-                    <span style={{ marginLeft: '10px' }}>Quantity: {quantity}</span>
+                    <span style={{ marginLeft: '10px' }}>Quantity: {quantity} grams</span>
                 )}
             </span>
             {isExpanded && (

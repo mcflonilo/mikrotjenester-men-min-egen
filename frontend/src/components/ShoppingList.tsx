@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BackButton from './BackButton';
 
 interface Recipe {
@@ -61,6 +61,10 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
     const [email, setEmail] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
 
+    useEffect(() => {
+        handleCreateCompleteShoppingList(false, false);
+    }, [shoppingList]);
+
     const handleRecipeClick = async (recipeId: number) => {
         setExpandedRecipeId(expandedRecipeId === recipeId ? null : recipeId);
         if (expandedRecipeId !== recipeId) {
@@ -91,14 +95,14 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
         setExpandedRecipeId((prevExpandedRecipeId) => (prevExpandedRecipeId === recipeId ? null : prevExpandedRecipeId));
     };
 
-    const handleCreateCompleteShoppingList = async (sendToRabbitMQ: boolean) => {
-        if (!user && !email) {
+    const handleCreateCompleteShoppingList = async (sendToRabbitMQ: boolean, sendAsEmail: boolean = false) => {
+        if (sendAsEmail && !user && !email) {
             setErrorMessage('You need to log in or write a valid email address');
             return;
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!user && !emailRegex.test(email)) {
+        if (sendAsEmail && !user && !emailRegex.test(email)) {
             setErrorMessage('You need to write a valid email address');
             return;
         }
@@ -109,7 +113,8 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
             const ingredientIds = shoppingList.flatMap(recipe => recipe.ingredientIds);
             const response = await fetch(`http://localhost:8000/api/food/${ingredientIds.join(',')}`);
             const ingredientData = await response.json();
-            const recipeQuantity = shoppingList.flatMap(recipe => Array.isArray(recipe.quantity) ? recipe.quantity.map(q => q * (quantities[recipe.id] || 1)) : [recipe.quantity * (quantities[recipe.id] || 1)]);            const combinedList = recipeQuantity.map((quantity, index) => {
+            const recipeQuantity = shoppingList.flatMap(recipe => Array.isArray(recipe.quantity) ? recipe.quantity.map(q => q * (quantities[recipe.id] || 1)) : [recipe.quantity * (quantities[recipe.id] || 1)]);
+            const combinedList = recipeQuantity.map((quantity, index) => {
                 const ingredient = ingredientData[index];
                 if (!ingredient) {
                     console.warn(`No ingredient data found for index ${index}`);
@@ -180,9 +185,10 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     )}
-                    <button onClick={() => handleCreateCompleteShoppingList(false)}>Create Complete Shopping List</button>
-                    <button onClick={() => handleCreateCompleteShoppingList(true)}>Create and Send as Email</button>
-                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                    <button onClick={() => handleCreateCompleteShoppingList(true, true)}>send shopping list on email
+                    </button>
+
+                    {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
                 </div>
             )}
             {returnedShoppingList && (

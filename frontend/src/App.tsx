@@ -83,9 +83,11 @@ const AppContent: React.FC = () => {
                         <li>
                             <Link to="/shopping-list" onClick={handleLinkClick}>Meal plan</Link>
                         </li>
-                        <li>
-                            <Link to="/user" onClick={handleLinkClick}>User</Link>
-                        </li>
+                        {user && (
+                            <li>
+                                <Link to="/user" onClick={handleLinkClick}>User</Link>
+                            </li>
+                        )}
                     </ul>
                 </nav>
             )}

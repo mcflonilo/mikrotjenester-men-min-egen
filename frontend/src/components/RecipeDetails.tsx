@@ -59,6 +59,8 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe, handleAddToShoppi
     const [loadingIngredients, setLoadingIngredients] = useState<boolean>(false);
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [successMessage, setSuccessMessage] = useState<string>('');
 
     useEffect(() => {
         if (isExpanded) {
@@ -150,10 +152,14 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe, handleAddToShoppi
     };
 
     const handleFavoriteClick = () => {
-        if (isFavorite) {
-            handleRemoveFromFavorites();
+        if (user) {
+            if (isFavorite) {
+                handleRemoveFromFavorites();
+            } else {
+                handleAddToFavorites();
+            }
         } else {
-            handleAddToFavorites();
+            setErrorMessage('You need to log in to add to favorites');
         }
     };
 
@@ -166,16 +172,17 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe, handleAddToShoppi
     };
 
     const calculateTotalNutrient = (nutrientId: string) => {
-        return nutritionalData.reduce((total, item) => {
-            const quantity = recipe.quantity || [];
+        return nutritionalData.reduce((total, item, index) => {
+            const quantity = recipe.quantity[index] || 1;
             const nutrient = item.constituents.find(constituent => constituent.nutrientId === nutrientId);
-            // @ts-ignore
-            return total + (nutrient ? ((nutrient.quantity ?? 0) * (quantity[item.foodName] || 1) / 100) : 0);
+            return total + (nutrient ? ((nutrient.quantity ?? 0) * quantity / 100) : 0);
         }, 0);
     };
 
     const handleAddToShoppingListClick = () => {
         handleAddToShoppingList(recipe);
+        setSuccessMessage('Recipe added to meal plan');
+        setTimeout(() => setSuccessMessage(''), 3000); // Clear the message after 3 seconds
     };
 
     const handleToggleExpand = () => {
@@ -194,7 +201,7 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe, handleAddToShoppi
                         <ul>
                             {nutritionalData.map((data, index) => (
                                 <li key={index}>
-                                    <Ingredient ingredient={data} quantity={recipe.quantity[index]} />
+                                    <Ingredient ingredient={data} quantity={recipe.quantity[index]}/>
                                 </li>
                             ))}
                         </ul>
@@ -215,6 +222,8 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe, handleAddToShoppi
                     <button onClick={handleFavoriteClick}>
                         {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
                     </button>
+                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                    {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
                 </div>
             )}
         </div>
