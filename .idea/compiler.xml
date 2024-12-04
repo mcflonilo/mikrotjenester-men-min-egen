@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ShoppingListService" />
         <module name="RecipeService" />
+        <module name="UserService" />
         <module name="Gateway" />
         <module name="RecipeService (2)" />
         <module name="RecipeService (1)" />
@@ -17,11 +18,6 @@
         <module name="LoginService" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="OngoingRound" target="21" />
-      <module name="Recorder" target="21" />
-      <module name="RoundResolver" target="21" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -29,13 +25,9 @@
       <module name="FoodFetcher" options="-parameters" />
       <module name="Gateway" options="-parameters" />
       <module name="LoginService" options="-parameters" />
-      <module name="OngoingRound" options="-parameters" />
       <module name="RecipeService" options="-parameters" />
-      <module name="RecipeService (1)" options="-parameters" />
-      <module name="RecipeService (2)" options="-parameters" />
-      <module name="Recorder" options="-parameters" />
-      <module name="RoundResolver" options="-parameters" />
       <module name="ShoppingListService" options="-parameters" />
+      <module name="UserService" options="-parameters" />
     </option>
   </component>
 </project>

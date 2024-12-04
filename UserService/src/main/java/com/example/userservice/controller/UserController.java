@@ -33,7 +33,7 @@ public class UserController {
 
     @PostMapping
     public String addFavorite(@RequestBody Favorite favorite) {
-        Optional<Favorite> existingFavorite = favoriteRepository.findByUserIdAndRecipeId(favorite.getUserId(), favorite.getRecipeId());
+        Optional<Favorite> existingFavorite = favoriteRepository.findByUserIdAndRecipeId(favorite.getUserId().toString(), favorite.getRecipeId());
         if (existingFavorite.isPresent()) {
             return "Favorite already exists.";
         }

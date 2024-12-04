@@ -1,0 +1,251 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------------< org.cards:Gateway >--------------------------
+[INFO] Building Gateway 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.3.3:run (default-cli) > test-compile @ Gateway >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ Gateway ---
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ Gateway ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ Gateway ---
+[INFO] skip non existing resourceDirectory C:\Users\lmoph\Desktop\github\pg3402-kandidat-57\Gateway\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ Gateway ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:3.3.3:run (default-cli) < test-compile @ Gateway <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.3.3:run (default-cli) @ Gateway ---
+[INFO] Attaching agents: []
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.3)
+
+2024-12-03T15:46:45.021+01:00  INFO 27560 --- [Gateway] [           main] org.cards.gateway.GatewayApplication     : Starting GatewayApplication using Java 23 with PID 27560 (C:\Users\lmoph\Desktop\github\pg3402-kandidat-57\Gateway\target\classes started by lmoph in C:\Users\lmoph\Desktop\github\pg3402-kandidat-57\Gateway)
+2024-12-03T15:46:45.024+01:00  INFO 27560 --- [Gateway] [           main] org.cards.gateway.GatewayApplication     : No active profile set, falling back to 1 default profile: "default"
+2024-12-03T15:46:45.905+01:00  INFO 27560 --- [Gateway] [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=d1f104e2-9b74-3ccf-9af7-360334e4007a
+2024-12-03T15:46:45.964+01:00  WARN 27560 --- [Gateway] [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2024-12-03T15:46:45.967+01:00  WARN 27560 --- [Gateway] [           main] trationDelegate$BeanPostProcessorChecker : Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2024-12-03T15:46:45.968+01:00  WARN 27560 --- [Gateway] [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [loadBalancerWebClientBuilderBeanPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2024-12-03T15:46:45.970+01:00  WARN 27560 --- [Gateway] [           main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig' of type [org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerBeanPostProcessorAutoConfiguration$ReactorDeferringLoadBalancerFilterConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [loadBalancerWebClientBuilderBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2024-12-03T15:46:45.971+01:00  WARN 27560 --- [Gateway] [           main] trationDelegate$BeanPostProcessorChecker : Bean 'reactorDeferringLoadBalancerExchangeFilterFunction' of type [org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [loadBalancerWebClientBuilderBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2024-12-03T15:46:46.422+01:00 DEBUG 27560 --- [Gateway] [           main] o.s.c.gateway.config.GatewayProperties   : Routes supplied from Gateway Properties: [RouteDefinition{id='UserService', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/favorites/**}}], filters=[], uri=lb://UserService, order=0, metadata={}}, RouteDefinition{id='FoodFetcher', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/food/**}}], filters=[], uri=lb://FoodFetcher, order=0, metadata={}}, RouteDefinition{id='ShoppingListService', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/shoppinglist/**}}], filters=[], uri=lb://ShoppingListService, order=0, metadata={}}, RouteDefinition{id='EmailService', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/email/**}}], filters=[], uri=lb://EmailService, order=0, metadata={}}, RouteDefinition{id='RecipeService', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/recipe/**}}], filters=[], uri=lb://RecipeService, order=0, metadata={}}, RouteDefinition{id='LoginService', predicates=[PredicateDefinition{name='Path', args={_genkey_0=/api/login/**}}], filters=[FilterDefinition{name='StripPrefix', args={_genkey_0=0}}, FilterDefinition{name='AddAuthHeaderFilter', args={}}], uri=lb://LoginService, order=0, metadata={}}]
+2024-12-03T15:46:46.507+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [After]
+2024-12-03T15:46:46.507+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Before]
+2024-12-03T15:46:46.507+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Between]
+2024-12-03T15:46:46.508+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Cookie]
+2024-12-03T15:46:46.508+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Header]
+2024-12-03T15:46:46.508+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Host]
+2024-12-03T15:46:46.508+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Method]
+2024-12-03T15:46:46.508+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Path]
+2024-12-03T15:46:46.508+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Query]
+2024-12-03T15:46:46.508+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [ReadBody]
+2024-12-03T15:46:46.509+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [RemoteAddr]
+2024-12-03T15:46:46.509+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [XForwardedRemoteAddr]
+2024-12-03T15:46:46.509+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [Weight]
+2024-12-03T15:46:46.509+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.g.r.RouteDefinitionRouteLocator    : Loaded RoutePredicateFactory [CloudFoundryRouteService]
+2024-12-03T15:46:46.703+01:00  INFO 27560 --- [Gateway] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2024-12-03T15:46:46.906+01:00  WARN 27560 --- [Gateway] [           main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-12-03T15:46:46.958+01:00 ERROR 27560 --- [Gateway] [TaskScheduler-1] o.s.c.c.discovery.ConsulCatalogWatch     : Error watching Consul CatalogServices
+
+com.ecwid.consul.transport.TransportException: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8500 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: getsockopt
+	at com.ecwid.consul.transport.AbstractHttpTransport.executeRequest(AbstractHttpTransport.java:83) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.transport.AbstractHttpTransport.makeGetRequest(AbstractHttpTransport.java:36) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.v1.ConsulRawClient.makeGetRequest(ConsulRawClient.java:139) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.v1.catalog.CatalogConsulClient.getCatalogServices(CatalogConsulClient.java:143) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.v1.ConsulClient.getCatalogServices(ConsulClient.java:400) ~[consul-api-1.4.5.jar:na]
+	at org.springframework.cloud.consul.discovery.ConsulCatalogWatch.catalogServicesWatch(ConsulCatalogWatch.java:130) ~[spring-cloud-consul-discovery-4.1.2.jar:4.1.2]
+	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54) ~[spring-context-6.1.12.jar:6.1.12]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572) ~[na:na]
+	at java.base/java.util.concurrent.FutureTask.runAndReset(FutureTask.java:358) ~[na:na]
+	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144) ~[na:na]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1575) ~[na:na]
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8500 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: getsockopt
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:72) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:221) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:165) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:140) ~[httpclient-4.5.14.jar:4.5.14]
+	at com.ecwid.consul.transport.AbstractHttpTransport.executeRequest(AbstractHttpTransport.java:70) ~[consul-api-1.4.5.jar:na]
+	... 12 common frames omitted
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:682) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592) ~[na:na]
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:760) ~[na:na]
+	at org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142) ~[httpclient-4.5.14.jar:4.5.14]
+	... 24 common frames omitted
+
+2024-12-03T15:46:47.044+01:00  INFO 27560 --- [Gateway] [           main] o.s.b.web.embedded.netty.NettyWebServer  : Netty started on port 8000 (http)
+2024-12-03T15:46:47.047+01:00  INFO 27560 --- [Gateway] [           main] o.s.c.c.s.ConsulServiceRegistry          : Registering service with consul: NewService{id='Gateway-8000', name='Gateway', tags=[], address='host.docker.internal', meta={secure=false}, port=8000, enableTagOverride=null, check=Check{script='null', dockerContainerID='null', shell='null', interval='10s', ttl='null', http='http://host.docker.internal:8000/actuator/health', method='null', header={}, tcp='null', timeout='null', deregisterCriticalServiceAfter='null', tlsSkipVerify=null, status='null', grpc='null', grpcUseTLS=null}, checks=null}
+2024-12-03T15:46:47.067+01:00 ERROR 27560 --- [Gateway] [           main] o.s.c.c.s.ConsulServiceRegistry          : Error registering service with consul: NewService{id='Gateway-8000', name='Gateway', tags=[], address='host.docker.internal', meta={secure=false}, port=8000, enableTagOverride=null, check=Check{script='null', dockerContainerID='null', shell='null', interval='10s', ttl='null', http='http://host.docker.internal:8000/actuator/health', method='null', header={}, tcp='null', timeout='null', deregisterCriticalServiceAfter='null', tlsSkipVerify=null, status='null', grpc='null', grpcUseTLS=null}, checks=null}
+
+com.ecwid.consul.transport.TransportException: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8500 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: getsockopt
+	at com.ecwid.consul.transport.AbstractHttpTransport.executeRequest(AbstractHttpTransport.java:83) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.transport.AbstractHttpTransport.makePutRequest(AbstractHttpTransport.java:49) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.v1.ConsulRawClient.makePutRequest(ConsulRawClient.java:163) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.v1.agent.AgentConsulClient.agentServiceRegister(AgentConsulClient.java:273) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.v1.ConsulClient.agentServiceRegister(ConsulClient.java:310) ~[consul-api-1.4.5.jar:na]
+	at org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistry.register(ConsulServiceRegistry.java:67) ~[spring-cloud-consul-discovery-4.1.2.jar:4.1.2]
+	at org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistry.register(ConsulServiceRegistry.java:43) ~[spring-cloud-consul-discovery-4.1.2.jar:4.1.2]
+	at org.springframework.cloud.client.serviceregistry.AbstractAutoServiceRegistration.register(AbstractAutoServiceRegistration.java:264) ~[spring-cloud-commons-4.1.4.jar:4.1.4]
+	at org.springframework.cloud.consul.serviceregistry.ConsulAutoServiceRegistration.register(ConsulAutoServiceRegistration.java:80) ~[spring-cloud-consul-discovery-4.1.2.jar:4.1.2]
+	at org.springframework.cloud.client.serviceregistry.AbstractAutoServiceRegistration.start(AbstractAutoServiceRegistration.java:156) ~[spring-cloud-commons-4.1.4.jar:4.1.4]
+	at org.springframework.cloud.consul.serviceregistry.ConsulAutoServiceRegistration.start(ConsulAutoServiceRegistration.java:70) ~[spring-cloud-consul-discovery-4.1.2.jar:4.1.2]
+	at org.springframework.cloud.consul.serviceregistry.ConsulAutoServiceRegistrationListener.onApplicationEvent(ConsulAutoServiceRegistrationListener.java:60) ~[spring-cloud-consul-discovery-4.1.2.jar:4.1.2]
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:185) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:178) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:156) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:452) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:385) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.boot.web.reactive.context.WebServerManager.start(WebServerManager.java:57) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.reactive.context.WebServerStartStopLifecycle.start(WebServerStartStopLifecycle.java:41) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:285) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.start(DefaultLifecycleProcessor.java:469) ~[spring-context-6.1.12.jar:6.1.12]
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75) ~[na:na]
+	at org.springframework.context.support.DefaultLifecycleProcessor.startBeans(DefaultLifecycleProcessor.java:257) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.DefaultLifecycleProcessor.onRefresh(DefaultLifecycleProcessor.java:202) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.finishRefresh(AbstractApplicationContext.java:990) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:628) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext.refresh(ReactiveWebServerApplicationContext.java:66) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.cards.gateway.GatewayApplication.main(GatewayApplication.java:10) ~[classes/:na]
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8500 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: getsockopt
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:72) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:221) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:165) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:140) ~[httpclient-4.5.14.jar:4.5.14]
+	at com.ecwid.consul.transport.AbstractHttpTransport.executeRequest(AbstractHttpTransport.java:70) ~[consul-api-1.4.5.jar:na]
+	... 32 common frames omitted
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:682) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592) ~[na:na]
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:760) ~[na:na]
+	at org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142) ~[httpclient-4.5.14.jar:4.5.14]
+	... 44 common frames omitted
+
+2024-12-03T15:46:49.139+01:00  WARN 27560 --- [Gateway] [           main] onfigReactiveWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2024-12-03T15:46:49.155+01:00  INFO 27560 --- [Gateway] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-03T15:46:49.169+01:00 ERROR 27560 --- [Gateway] [           main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:288) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.DefaultLifecycleProcessor$LifecycleGroup.start(DefaultLifecycleProcessor.java:469) ~[spring-context-6.1.12.jar:6.1.12]
+	at java.base/java.lang.Iterable.forEach(Iterable.java:75) ~[na:na]
+	at org.springframework.context.support.DefaultLifecycleProcessor.startBeans(DefaultLifecycleProcessor.java:257) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.DefaultLifecycleProcessor.onRefresh(DefaultLifecycleProcessor.java:202) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.finishRefresh(AbstractApplicationContext.java:990) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:628) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext.refresh(ReactiveWebServerApplicationContext.java:66) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.cards.gateway.GatewayApplication.main(GatewayApplication.java:10) ~[classes/:na]
+Caused by: com.ecwid.consul.transport.TransportException: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8500 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: getsockopt
+	at com.ecwid.consul.transport.AbstractHttpTransport.executeRequest(AbstractHttpTransport.java:83) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.transport.AbstractHttpTransport.makePutRequest(AbstractHttpTransport.java:49) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.v1.ConsulRawClient.makePutRequest(ConsulRawClient.java:163) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.v1.agent.AgentConsulClient.agentServiceRegister(AgentConsulClient.java:273) ~[consul-api-1.4.5.jar:na]
+	at com.ecwid.consul.v1.ConsulClient.agentServiceRegister(ConsulClient.java:310) ~[consul-api-1.4.5.jar:na]
+	at org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistry.register(ConsulServiceRegistry.java:67) ~[spring-cloud-consul-discovery-4.1.2.jar:4.1.2]
+	at org.springframework.cloud.consul.serviceregistry.ConsulServiceRegistry.register(ConsulServiceRegistry.java:43) ~[spring-cloud-consul-discovery-4.1.2.jar:4.1.2]
+	at org.springframework.cloud.client.serviceregistry.AbstractAutoServiceRegistration.register(AbstractAutoServiceRegistration.java:264) ~[spring-cloud-commons-4.1.4.jar:4.1.4]
+	at org.springframework.cloud.consul.serviceregistry.ConsulAutoServiceRegistration.register(ConsulAutoServiceRegistration.java:80) ~[spring-cloud-consul-discovery-4.1.2.jar:4.1.2]
+	at org.springframework.cloud.client.serviceregistry.AbstractAutoServiceRegistration.start(AbstractAutoServiceRegistration.java:156) ~[spring-cloud-commons-4.1.4.jar:4.1.4]
+	at org.springframework.cloud.consul.serviceregistry.ConsulAutoServiceRegistration.start(ConsulAutoServiceRegistration.java:70) ~[spring-cloud-consul-discovery-4.1.2.jar:4.1.2]
+	at org.springframework.cloud.consul.serviceregistry.ConsulAutoServiceRegistrationListener.onApplicationEvent(ConsulAutoServiceRegistrationListener.java:60) ~[spring-cloud-consul-discovery-4.1.2.jar:4.1.2]
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:185) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:178) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:156) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:452) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:385) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.boot.web.reactive.context.WebServerManager.start(WebServerManager.java:57) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.reactive.context.WebServerStartStopLifecycle.start(WebServerStartStopLifecycle.java:41) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:285) ~[spring-context-6.1.12.jar:6.1.12]
+	... 13 common frames omitted
+Caused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8500 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused: getsockopt
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:72) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:221) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:165) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:140) ~[httpclient-4.5.14.jar:4.5.14]
+	at com.ecwid.consul.transport.AbstractHttpTransport.executeRequest(AbstractHttpTransport.java:70) ~[consul-api-1.4.5.jar:na]
+	... 32 common frames omitted
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:682) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:542) ~[na:na]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:592) ~[na:na]
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[na:na]
+	at java.base/java.net.Socket.connect(Socket.java:760) ~[na:na]
+	at org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75) ~[httpclient-4.5.14.jar:4.5.14]
+	at org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142) ~[httpclient-4.5.14.jar:4.5.14]
+	... 44 common frames omitted
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  8.887 s
+[INFO] Finished at: 2024-12-03T15:46:49+01:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:3.3.3:run (default-cli) on project Gateway: Process terminated with exit code: 1 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

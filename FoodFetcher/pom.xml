@@ -63,7 +63,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Add the missing dependency for RestClient -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>

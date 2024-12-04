@@ -16,7 +16,6 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_CONSUL_HOST=consul
     depends_on:
-      - consul-importer
       - rabbitmq-dev
     networks:
       - micro_food
@@ -58,7 +57,6 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_CLOUD_CONSUL_HOST=consul
     depends_on:
-      - consul-importer
       - rabbitmq-dev
     networks:
       - micro_food
@@ -73,7 +71,6 @@ services:
       - SPRING_CLOUD_CONSUL_HOST=consul
     depends_on:
       - rabbitmq-dev
-      - consul-importer
     networks:
       - micro_food
     pull_policy: always
@@ -87,7 +84,6 @@ services:
       - SPRING_CLOUD_CONSUL_HOST=consul
     depends_on:
       - rabbitmq-dev
-      - consul-importer
     networks:
       - micro_food
     pull_policy: always
@@ -101,7 +97,6 @@ services:
       - SPRING_CLOUD_CONSUL_HOST=consul
     depends_on:
       - rabbitmq-dev
-      - consul-importer
     networks:
       - micro_food
     pull_policy: always
@@ -116,12 +111,6 @@ services:
     networks:
       - micro_food
 
-  consul-importer:
-    image: consul-importer:1.19.2
-    depends_on:
-      - consul-dev
-    networks:
-      - micro_food
 
   rabbitmq-dev:
     image: rabbitmq:3-management
