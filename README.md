@@ -18,31 +18,16 @@ By focusing on these elements, the website aims to not only make cooking easier 
 ### Architecture Diagram
 ![Architecture Diagram](https://github.com/user-attachments/assets/99f9bf73-d143-4cde-9c2d-a1e96e16eb66)
 
-
 ### Running the Project
 
 #### Prerequisites
 Ensure you have the following installed:
-
-
-   Java Development Kit (JDK)
-        Ensure you have Java JDK installed on your system.
-
-   Apache Maven
-        Install Apache Maven for building and managing Java projects.
-
-   Node.js and npm
-        Install Node.js and npm for running the frontend application.
-
-   Docker (optional)
-        Install Docker if you prefer running the services using Docker.
-
-   Consul
-        Install and configure Consul for service discovery.
-
-   RabbitMQ
-        Install and configure RabbitMQ for message brokering.
-
+- **Docker and Docker Compose:** For containerization and orchestration.
+- **Java Development Kit (JDK):** Required for the backend services.
+- **Maven:** To build and manage the Java-based microservices.
+- **Node.js and npm:** For running the frontend application.
+- **RabbitMQ:** To handle asynchronous communication.
+- **Consul:** For service discovery and centralized configuration.
 
 #### Using Docker
 To run the project using Docker, execute the following commands in the root directory:
