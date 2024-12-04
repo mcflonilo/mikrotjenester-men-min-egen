@@ -3,15 +3,16 @@ Architecture diagram:
 ![arbeidskrav mikrotjenester](https://github.com/user-attachments/assets/99f9bf73-d143-4cde-9c2d-a1e96e16eb66)
 
 
-microservices2024
+#microservices2024
 
 PG3402 - 2024 version
-Running the Project
-Using Docker
+Running the Project Using Docker
 
-To run the project using Docker, execute the following command in the root directory (login does not work):
+Execute the following command in the root directory (login does not work):
 
-docker-compose -f docker/docker-compose-services.yml up
+    docker-compose -f docker/docker-compose-services.yml up
+
+
 
 Without Docker
 
@@ -36,12 +37,12 @@ Navigate to each service folder and run:
     mvn spring-boot:run
 
 The relevant folders are:
-        EmailService
-        FoodFetcher
-        Gateway
-        LoginService
-        RecipeService
-        ShoppingListService
+        EmailService,
+        FoodFetcher,
+        Gateway,
+        LoginService,
+        RecipeService,
+        ShoppingListService,
         UserService
 
 
