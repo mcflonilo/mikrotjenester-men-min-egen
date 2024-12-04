@@ -2,6 +2,19 @@
 
 ## Microservices Project
 
+### Project Overview
+This project focuses on creating a website that simplifies meal planning and preparation for users. Unlike many existing platforms, this site prioritizes accessibility by avoiding paywalls for essential features, such as viewing detailed macronutrient information or saving recipes to user profiles. Additionally, it caters specifically to students and individuals with limited funds or cooking equipment, providing affordable meal options that can be prepared with minimal resources (e.g., a single stovetop burner or a microwave).
+
+Key features of the project include:
+
+1. **Shopping List Generator:** Automatically generates shopping lists based on selected recipes, ensuring users have all the ingredients they need without the stress of last-minute grocery runs.
+
+2. **Community Engagement:** A forum for users to share recipes and tips on making affordable, nutritious, and easy meals, fostering a sense of collaboration and support.
+
+3. **Nutritional Insights:** Each recipe includes detailed nutritional information, helping users make informed decisions about their meals and align with specific dietary needs or goals.
+
+By focusing on these elements, the website aims to not only make cooking easier but also inspire healthier eating habits and build a supportive community of food enthusiasts.
+
 ### Architecture Diagram
 ![Architecture Diagram](https://github.com/user-attachments/assets/99f9bf73-d143-4cde-9c2d-a1e96e16eb66)
 
