@@ -11,6 +11,8 @@ Running the Project Using Docker
 Execute the following command in the root directory (login does not work):
 
     docker-compose -f docker/docker-compose-services.yml up
+    cd ./LoginService/
+    mvn spring-boot:run
 
 
 
