@@ -136,6 +136,10 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                 };
             }).filter(item => item !== null);
 
+            console.log('Sending shopping list email...');
+            console.log('Email:', email || (user ? user.email : 'guest@example.com'));
+            console.log('Shopping List:', combinedList);
+
             const shoppingListResponse = await fetch(`http://localhost:8000/api/shoppinglist?sendToRabbitMQ=${sendToRabbitMQ}`, {
                 method: 'POST',
                 headers: {
@@ -148,6 +152,8 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
             }
             const data = await shoppingListResponse.json();
             setReturnedShoppingList(data);
+
+            console.log('Email sent successfully.');
         } catch (error) {
             console.error('Error creating shopping list:', error);
         }
