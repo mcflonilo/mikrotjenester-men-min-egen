@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Pasta",
+    "description": "Pasta with tomato sauce",
+    "instructions": "Cook pasta, add sauce",
+    "ingredientIds": [1, 2],
+    "quantity": [1, 2],
+    "allergyTags": ["Gluten"]
+  },
+  {
+    "name": "Salad",
+    "description": "Fresh vegetable salad",
+    "instructions": "Chop vegetables, mix with dressing",
+    "ingredientIds": [3, 4],
+    "quantity": [1, 1],
+    "allergyTags": []
+  },
+  {
+    "name": "Chicken Curry",
+    "description": "Spicy chicken curry",
+    "instructions": "Cook chicken, add spices and simmer",
+    "ingredientIds": [5, 6, 7],
+    "quantity": [1, 2, 1],
+    "allergyTags": []
+  },
+  {
+    "name": "Beef Stew",
+    "description": "Hearty beef stew",
+    "instructions": "Cook beef, add vegetables and simmer",
+    "ingredientIds": [8, 9, 10],
+    "quantity": [1, 3, 2],
+    "allergyTags": []
+  },
+  {
+    "name": "Vegetable Stir Fry",
+    "description": "Mixed vegetable stir fry",
+    "instructions": "Stir fry vegetables with sauce",
+    "ingredientIds": [11, 12, 13],
+    "quantity": [2, 1, 1],
+    "allergyTags": ["Soybeans"]
+  }
+]

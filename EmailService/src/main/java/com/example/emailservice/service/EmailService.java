@@ -1,5 +1,7 @@
 package com.example.emailservice.service;
 
+import com.example.emailservice.config.RabbitMQConfig;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -53,6 +55,7 @@ public class EmailService {
         }
     }
 
+    @RabbitListener(queues = RabbitMQConfig.QUEUE)
     public void receiveMessage(Map<String, Object> message) {
         // Extract email details from the message and call sendEmail
         String to = (String) message.get("to");
