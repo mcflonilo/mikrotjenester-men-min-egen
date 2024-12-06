@@ -1,0 +1,57 @@
+/* ShoppingList.css */
+.container {
+    padding: 20px;
+    margin-left: 250px; /* Adjust if necessary to match the sidebar width */
+}
+
+h2 {
+    color: #343a40;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #324e28;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    cursor: pointer;
+    color: #007bff;
+}
+
+h3:hover {
+    text-decoration: underline;
+}
+
+input[type="number"], input[type="email"] {
+    margin: 10px 0;
+    padding: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+}

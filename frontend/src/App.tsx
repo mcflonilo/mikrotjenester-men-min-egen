@@ -1,15 +1,15 @@
-import './App.css';
+import './components/style/App.css';
 import * as React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import FetchRecipes from './components/FetchRecipes';
 import CreateRecipe from './components/CreateRecipe';
-import { NavProvider, useNav } from './NavContext';
+import { NavProvider } from './NavContext';
 import ShoppingList from "./components/ShoppingList";
 import { useEffect, useState } from "react";
 import Login from "./components/Login";
 import { UserProvider, useUser } from './components/UserContext';
-import UserPage from "./components/UserPage.tsx";
-import RecipePage from "./components/RecipePage.tsx";
+import UserPage from "./components/UserPage";
+import RecipePage from "./components/RecipePage";
 
 interface Recipe {
     id: number;
@@ -20,20 +20,7 @@ interface Recipe {
     quantity: number[];
 }
 
-const App: React.FC = () => {
-    return (
-        <NavProvider>
-            <UserProvider>
-                <Router>
-                    <AppContent />
-                </Router>
-            </UserProvider>
-        </NavProvider>
-    );
-};
-
 const AppContent: React.FC = () => {
-    const { showNav, setShowNav } = useNav();
     const { user, setUser } = useUser();
     const [shoppingList, setShoppingList] = useState<Recipe[]>([]);
 
@@ -45,7 +32,6 @@ const AppContent: React.FC = () => {
                 });
                 if (response.ok) {
                     const userData = await response.json();
-                    console.log('User data:', userData);
                     setUser(userData);
                 }
             } catch (error) {
@@ -55,10 +41,6 @@ const AppContent: React.FC = () => {
 
         fetchUser();
     }, [setUser]);
-
-    const handleLinkClick = () => {
-        setShowNav(false);
-    };
 
     const handleAddToShoppingList = (newRecipe: Recipe) => {
         setShoppingList([...shoppingList.filter(recipe => recipe.id !== newRecipe.id), newRecipe]);
@@ -70,37 +52,47 @@ const AppContent: React.FC = () => {
 
     return (
         <div>
-            {showNav && (
-                <nav>
-                    <ul>
-                        <Login />
+            <nav className="side">
+                <ul>
+                    <Login />
+                    <li>
+                        <Link to="/recipes">Browse Recipes</Link>
+                    </li>
+                    <li>
+                        <Link to="/create">Create Recipe</Link>
+                    </li>
+                    <li>
+                        <Link to="/shopping-list">Meal plan</Link>
+                    </li>
+                    {user && (
                         <li>
-                            <Link to="/recipes" onClick={handleLinkClick}>Browse Recipes</Link>
+                            <Link to="/user">User</Link>
                         </li>
-                        <li>
-                            <Link to="/create" onClick={handleLinkClick}>Create Recipe</Link>
-                        </li>
-                        <li>
-                            <Link to="/shopping-list" onClick={handleLinkClick}>Meal plan</Link>
-                        </li>
-                        {user && (
-                            <li>
-                                <Link to="/user" onClick={handleLinkClick}>User</Link>
-                            </li>
-                        )}
-                    </ul>
-                </nav>
-            )}
+                    )}
+                </ul>
+            </nav>
             <main>
                 <Routes>
                     <Route path="/recipes" element={<FetchRecipes handleAddToShoppingList={handleAddToShoppingList} />} />
                     <Route path="/create" element={<CreateRecipe />} />
                     <Route path="/shopping-list" element={<ShoppingList shoppingList={shoppingList} handleRemoveFromShoppingList={handleRemoveFromShoppingList} user={user} />} />
-                    <Route path="/user" element={<UserPage handleAddToShoppingList={handleAddToShoppingList} />} />
+                    <Route path="/user" element={<UserPage />} />
                     <Route path="/recipe/:id" element={<RecipePage handleAddToShoppingList={handleAddToShoppingList} />} />
                 </Routes>
             </main>
         </div>
+    );
+};
+
+const App: React.FC = () => {
+    return (
+        <NavProvider>
+            <UserProvider>
+                <Router>
+                    <AppContent />
+                </Router>
+            </UserProvider>
+        </NavProvider>
     );
 };
 

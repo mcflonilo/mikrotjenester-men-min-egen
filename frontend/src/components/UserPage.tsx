@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useUser} from './UserContext';
 import BackButton from "./BackButton.tsx";
-import RecipeDetails from "./RecipeDetails.tsx";
+import {useNavigate} from "react-router-dom";
 
 interface Favorite {
     id: number;
@@ -19,14 +19,13 @@ interface Recipe {
     allergyTags: string[];
 }
 
-interface UserPageProps {
-    handleAddToShoppingList: (newRecipe: Recipe) => void;
-}
 
-const UserPage: React.FC<UserPageProps> = ({handleAddToShoppingList}) => {
+const UserPage: React.FC = ({}) => {
     const {user} = useUser();
     const [, setFavorites] = useState<Favorite[]>([]);
     const [recipes, setRecipes] = useState<Recipe[]>([]);
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         if (user) {
@@ -75,8 +74,9 @@ const UserPage: React.FC<UserPageProps> = ({handleAddToShoppingList}) => {
             <h2>Favorites</h2>
             <ul>
                 {recipes.map(recipe => (
-                    <li key={recipe.id}>
-                        <RecipeDetails recipe={recipe} handleAddToShoppingList={handleAddToShoppingList}/>
+                    <li key={recipe.id} onClick={() => navigate(`/recipe/${recipe.id}`)}>
+                        <h3>{recipe.name}</h3>
+                        <p>{recipe.description}</p>
                     </li>
                 ))}
             </ul>

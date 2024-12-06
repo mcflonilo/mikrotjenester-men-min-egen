@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import BackButton from './BackButton';
+import './style/ShoppingList.css';
 
 interface Recipe {
     id: number;
@@ -81,8 +82,12 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
         setQuantities({
             ...quantities,
             [recipeId]: newQuantity,
+
         });
     };
+    useEffect(() => {
+        handleCreateCompleteShoppingList(false, false);
+    }, [quantities]);
 
     const handleRemoveRecipe = (recipeId: number) => {
         handleRemoveFromShoppingList(recipeId);
@@ -104,6 +109,11 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (sendAsEmail && !user && !emailRegex.test(email)) {
             setErrorMessage('You need to write a valid email address');
+            return;
+        }
+
+        if (shoppingList.length === 0) {
+            setErrorMessage('No recipes selected.');
             return;
         }
 
@@ -137,15 +147,13 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                 throw new Error('Network response was not ok :(');
             }
             const data = await shoppingListResponse.json();
-            console.log('Shopping list created:', data);
             setReturnedShoppingList(data);
         } catch (error) {
             console.error('Error creating shopping list:', error);
         }
     };
-
     return (
-        <div>
+        <div className="container">
             <BackButton />
             <h2>Meal Plan</h2>
             {shoppingList.length === 0 ? (
@@ -188,7 +196,7 @@ const ShoppingList: React.FC<ShoppingListProps> = ({ shoppingList: initialShoppi
                     <button onClick={() => handleCreateCompleteShoppingList(true, true)}>send shopping list on email
                     </button>
 
-                    {errorMessage && <p style={{color: 'red'}}>{errorMessage}</p>}
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </div>
             )}
             {returnedShoppingList && (

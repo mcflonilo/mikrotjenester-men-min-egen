@@ -102,6 +102,33 @@ const CreateRecipe: React.FC = () => {
         }
     };
 
+    const customStyles = {
+        control: (provided: any) => ({
+            ...provided,
+            backgroundColor: '#456a36',
+            borderColor: '#ccc',
+            color: '#d8d8d8'
+        }),
+        singleValue: (provided: any) => ({
+            ...provided,
+            color: '#d8d8d8'
+        }),
+        menu: (provided: any) => ({
+            ...provided,
+            backgroundColor: '#456a36',
+            color: '#d8d8d8'
+        }),
+        option: (provided: any, state: any) => ({
+            ...provided,
+            backgroundColor: state.isSelected ? '#0056b3' : '#456a36',
+            color: '#d8d8d8',
+            '&:hover': {
+                backgroundColor: '#0056b3',
+                color: '#d8d8d8'
+            }
+        })
+    };
+
     return (
         <div className="container">
             <BackButton />
@@ -139,6 +166,7 @@ const CreateRecipe: React.FC = () => {
                             value={selectedIngredient}
                             onChange={setSelectedIngredient}
                             classNamePrefix="custom-select"
+                            styles={customStyles}
                         />
                         <input
                             type="text"
