@@ -1,6 +1,6 @@
-// src/components/Ingredient.tsx
 import React, { useState } from 'react';
 import { Ingredient as IngredientType } from '../types/Ingredient';
+import './style/Ingredient.css';
 
 interface IngredientProps {
     ingredient: IngredientType;
@@ -26,15 +26,15 @@ const Ingredient: React.FC<IngredientProps> = ({ ingredient, quantity }) => {
     };
 
     return (
-        <div onClick={handleToggle} style={{ cursor: 'pointer' }}>
-            <span>
-                <h2 style={{ display: 'inline' }}>{ingredient.foodName}</h2>
+        <div className="ingredient-container" onClick={handleToggle}>
+            <div className="ingredient-header">
+                <h2>{ingredient.foodName}</h2>
                 {quantity !== undefined && (
-                    <span style={{ marginLeft: '10px' }}>Quantity: {quantity} grams</span>
+                    <span>Quantity: {quantity} grams</span>
                 )}
-            </span>
+            </div>
             {isExpanded && (
-                <div>
+                <div className="ingredient-details">
                     <h3>Makros per 100 grams</h3>
                     <ul>
                         <li>Calories: {ingredient.calories.quantity} {ingredient.calories.unit}</li>

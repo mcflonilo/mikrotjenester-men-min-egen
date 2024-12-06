@@ -1,4 +1,3 @@
-// src/App.tsx
 import './App.css';
 import * as React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
@@ -8,8 +7,9 @@ import { NavProvider, useNav } from './NavContext';
 import ShoppingList from "./components/ShoppingList";
 import { useEffect, useState } from "react";
 import Login from "./components/Login";
-import {UserProvider, useUser} from './components/UserContext';
+import { UserProvider, useUser } from './components/UserContext';
 import UserPage from "./components/UserPage.tsx";
+import RecipePage from "./components/RecipePage.tsx";
 
 interface Recipe {
     id: number;
@@ -91,13 +91,17 @@ const AppContent: React.FC = () => {
                     </ul>
                 </nav>
             )}
-            <Routes>
-                <Route path="/recipes" element={<FetchRecipes handleAddToShoppingList={handleAddToShoppingList} />} />
-                <Route path="/create" element={<CreateRecipe />} />
-                <Route path="/shopping-list" element={<ShoppingList shoppingList={shoppingList} handleRemoveFromShoppingList={handleRemoveFromShoppingList} user={user} />} />
-                <Route path="/user" element={<UserPage handleAddToShoppingList={handleAddToShoppingList} />} />
-            </Routes>
+            <main>
+                <Routes>
+                    <Route path="/recipes" element={<FetchRecipes handleAddToShoppingList={handleAddToShoppingList} />} />
+                    <Route path="/create" element={<CreateRecipe />} />
+                    <Route path="/shopping-list" element={<ShoppingList shoppingList={shoppingList} handleRemoveFromShoppingList={handleRemoveFromShoppingList} user={user} />} />
+                    <Route path="/user" element={<UserPage handleAddToShoppingList={handleAddToShoppingList} />} />
+                    <Route path="/recipe/:id" element={<RecipePage handleAddToShoppingList={handleAddToShoppingList} />} />
+                </Routes>
+            </main>
         </div>
     );
 };
+
 export default App;

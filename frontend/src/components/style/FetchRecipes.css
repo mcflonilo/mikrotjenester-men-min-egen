@@ -1,0 +1,25 @@
+/* FetchRecipes.css */
+.container {
+    margin: 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.allergy-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.allergy-tags div {
+    margin-bottom: 5px;
+    margin-right: 10px;
+    color: black;
+}

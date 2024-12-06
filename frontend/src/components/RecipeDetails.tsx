@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Ingredient from "./Ingredient.tsx";
 import { useUser } from './UserContext';
+import './style/RecipeDetails.css';
 
 interface Recipe {
     id: number;
@@ -58,16 +59,13 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe, handleAddToShoppi
     const [nutritionalData, setNutritionalData] = useState<NutritionalData[]>([]);
     const [loadingIngredients, setLoadingIngredients] = useState<boolean>(false);
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
-    const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [successMessage, setSuccessMessage] = useState<string>('');
 
     useEffect(() => {
-        if (isExpanded) {
-            fetchNutritionalData(recipe.ingredientIds);
-            checkIfFavorite();
-        }
-    }, [recipe, isExpanded]);
+        fetchNutritionalData(recipe.ingredientIds);
+        checkIfFavorite();
+    }, [recipe]);
 
     const fetchNutritionalData = (ingredientIds: number[]) => {
         setLoadingIngredients(true);
@@ -164,19 +162,19 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe, handleAddToShoppi
     };
 
     const calculateTotalCalories = () => {
-        return nutritionalData.reduce((total, item) => {
+        return Math.round(nutritionalData.reduce((total, item) => {
             const quantity = recipe.quantity || [];
             // @ts-ignore
             return total + (item.calories.quantity * (quantity[item.foodName] || 1) / 100);
-        }, 0);
+        }, 0));
     };
 
     const calculateTotalNutrient = (nutrientId: string) => {
-        return nutritionalData.reduce((total, item, index) => {
+        return Math.round(nutritionalData.reduce((total, item, index) => {
             const quantity = recipe.quantity[index] || 1;
             const nutrient = item.constituents.find(constituent => constituent.nutrientId === nutrientId);
             return total + (nutrient ? ((nutrient.quantity ?? 0) * quantity / 100) : 0);
-        }, 0);
+        }, 0));
     };
 
     const handleAddToShoppingListClick = () => {
@@ -185,47 +183,52 @@ const RecipeDetails: React.FC<RecipeDetailsProps> = ({ recipe, handleAddToShoppi
         setTimeout(() => setSuccessMessage(''), 3000); // Clear the message after 3 seconds
     };
 
-    const handleToggleExpand = () => {
-        setIsExpanded(!isExpanded);
-    };
-
     return (
-        <div>
-            <h3 onClick={handleToggleExpand} style={{ cursor: 'pointer' }}>{recipe.name}</h3>
-            {isExpanded && (
-                <div>
-                    <p>{recipe.description}</p>
-                    {loadingIngredients ? (
-                        <div>Loading ingredients...</div>
-                    ) : (
-                        <ul>
-                            {nutritionalData.map((data, index) => (
-                                <li key={index}>
-                                    <Ingredient ingredient={data} quantity={recipe.quantity[index]}/>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                    <p>{recipe.instructions}</p>
-                    <h4>Nutritional Data</h4>
-                    <h2>Total Calories: {calculateTotalCalories()} kcal</h2>
-                    <h2>Total Protein: {calculateTotalNutrient('Protein')} g</h2>
-                    <h2>Total Fat: {calculateTotalNutrient('Fett')} g</h2>
-                    <h2>Total Carbs: {calculateTotalNutrient('Karbo')} g</h2>
-                    <h4>Allergy Tags</h4>
+        <div className="recipe-details">
+            <h2>{recipe.name}</h2>
+            <div className="recipe-section">
+                <h2>Description</h2>
+                <p>{recipe.description}</p>
+            </div>
+            <div className="recipe-section">
+                <h2>Ingredients</h2>
+                {loadingIngredients ? (
+                    <div>Loading ingredients...</div>
+                ) : (
                     <ul>
-                        {recipe.allergyTags.map((tag, index) => (
-                            <li key={index}>{tag}</li>
+                        {nutritionalData.map((data, index) => (
+                            <li key={index}>
+                                <Ingredient ingredient={data} quantity={recipe.quantity[index]}/>
+                            </li>
                         ))}
                     </ul>
-                    <button onClick={handleAddToShoppingListClick}>Add to meal plan</button>
-                    <button onClick={handleFavoriteClick}>
-                        {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-                    </button>
-                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-                    {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-                </div>
-            )}
+                )}
+            </div>
+            <div className="recipe-section">
+                <h2>Instructions</h2>
+                <p>{recipe.instructions}</p>
+            </div>
+            <div className="recipe-section">
+                <h2>Nutritional Data</h2>
+                <h4>Total Calories: {calculateTotalCalories()} kcal</h4>
+                <h4>Total Protein: {calculateTotalNutrient('Protein')} g</h4>
+                <h4>Total Fat: {calculateTotalNutrient('Fett')} g</h4>
+                <h4>Total Carbs: {calculateTotalNutrient('Karbo')} g</h4>
+            </div>
+            <div className="recipe-section">
+                <h2>Allergy Tags</h2>
+                <ul>
+                    {recipe.allergyTags.map((tag, index) => (
+                        <li key={index}>{tag}</li>
+                    ))}
+                </ul>
+            </div>
+            <button onClick={handleAddToShoppingListClick}>Add to meal plan</button>
+            <button onClick={handleFavoriteClick}>
+                {isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            </button>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {successMessage && <p className="success-message">{successMessage}</p>}
         </div>
     );
 };

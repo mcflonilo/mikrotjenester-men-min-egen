@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import RecipeDetails from './RecipeDetails.tsx';
 import BackButton from "./BackButton.tsx";
+import './style/FetchRecipes.css';
+import {useNavigate} from "react-router-dom";
 
 interface Recipe {
     id: number;
@@ -20,12 +21,13 @@ const allergyOptions = [
     "Gluten", "Crustaceans", "Eggs", "Fish", "Peanuts", "Soybeans", "Milk", "Nuts", "Celery", "Mustard", "Sesame", "Sulphites", "Lupin", "Molluscs"
 ];
 
-const FetchRecipes: React.FC<FetchRecipesProps> = ({ handleAddToShoppingList }) => {
+const FetchRecipes: React.FC<FetchRecipesProps> = () => {
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [allergyFilters, setAllergyFilters] = useState<string[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setLoading(true);
@@ -77,7 +79,7 @@ const FetchRecipes: React.FC<FetchRecipesProps> = ({ handleAddToShoppingList }) 
     };
 
     return (
-        <div>
+        <div className="container">
             <BackButton />
             <h2>Recipes</h2>
             <div>
@@ -86,9 +88,13 @@ const FetchRecipes: React.FC<FetchRecipesProps> = ({ handleAddToShoppingList }) 
                     placeholder="Search recipes"
                     value={searchTerm}
                     onChange={handleSearchChange}
+                    className="search-input"
                 />
-                <div>
-                    <h4>Filter by Allergies</h4>
+            </div>
+            <hr />
+            <div>
+                <h4>Filter by Allergies</h4>
+                <div className="allergy-tags">
                     {allergyOptions.map((allergy, index) => (
                         <div key={index}>
                             <label>
@@ -103,13 +109,15 @@ const FetchRecipes: React.FC<FetchRecipesProps> = ({ handleAddToShoppingList }) 
                     ))}
                 </div>
             </div>
+            <hr />
             {loading ? (
                 <div>Loading recipes...</div>
             ) : (
                 <ul>
                     {filteredRecipes.map(recipe => (
-                        <li key={recipe.id}>
-                            <RecipeDetails recipe={recipe} handleAddToShoppingList={handleAddToShoppingList} />
+                        <li key={recipe.id} onClick={() => navigate(`/recipe/${recipe.id}`)}>
+                            <h3>{recipe.name}</h3>
+                            <p>{recipe.description}</p>
                         </li>
                     ))}
                 </ul>

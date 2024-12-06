@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import BackButton from "./BackButton.tsx";
 import { Ingredient as IngredientType } from '../types/Ingredient';
+import './style/CreateRecipe.css';
 
 const allergyOptions = [
     "Gluten", "Crustaceans", "Eggs", "Fish", "Peanuts", "Soybeans", "Milk", "Nuts", "Celery", "Mustard", "Sesame", "Sulphites", "Lupin", "Molluscs"
@@ -101,69 +102,58 @@ const CreateRecipe: React.FC = () => {
         }
     };
 
-    const customStyles = {
-        control: (provided: any) => ({
-            ...provided,
-            fontSize: '16px',
-            padding: '5px',
-        }),
-        menu: (provided: any) => ({
-            ...provided,
-            fontSize: '16px',
-        }),
-        option: (provided: any, state: { isSelected: any; isFocused: any; }) => ({
-            ...provided,
-            backgroundColor: state.isSelected ? '#007bff' : state.isFocused ? '#e9ecef' : null,
-            color: state.isSelected ? 'white' : 'black',
-            padding: '10px',
-        }),
-    };
-
     return (
-        <div>
+        <div className="container">
             <BackButton />
             <h2>Create Recipe</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Name:</label>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                    {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
+                    <label>Recipe name:</label>
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+                    {errors.name && <span>{errors.name}</span>}
                 </div>
+                <hr />
                 <div>
                     <label>Description:</label>
-                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
-                    {errors.description && <span style={{ color: 'red' }}>{errors.description}</span>}
+                    <textarea value={description} onChange={(e) => setDescription(e.target.value)}/>
+                    {errors.description && <span>{errors.description}</span>}
                 </div>
+                <hr />
                 <div>
                     <label>Instructions:</label>
-                    <textarea value={instructions} onChange={(e) => setInstructions(e.target.value)} />
-                    {errors.instructions && <span style={{ color: 'red' }}>{errors.instructions}</span>}
+                    <textarea value={instructions} onChange={(e) => setInstructions(e.target.value)}/>
+                    {errors.instructions && <span>{errors.instructions}</span>}
                 </div>
-                <div>
+                <hr />
+                <div className="ingredient-list">
                     <h4>Ingredients</h4>
                     {ingredients.map((ingredient, index) => (
                         <div key={index}>
                             <span>Ingredient: {ingredient.name}, Quantity: {ingredient.quantity}</span>
                         </div>
                     ))}
-                    <Select
-                        options={options}
-                        isSearchable
-                        styles={customStyles}
-                        value={selectedIngredient}
-                        onChange={setSelectedIngredient}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Quantity"
-                        value={quantity}
-                        onChange={(e) => setQuantity(e.target.value)}
-                    />
+                    <div className="select-and-quantity">
+                        <Select
+                            options={options}
+                            isSearchable
+                            value={selectedIngredient}
+                            onChange={setSelectedIngredient}
+                            classNamePrefix="custom-select"
+                        />
+                        <input
+                            type="text"
+                            placeholder="Quantity"
+                            value={quantity}
+                            onChange={(e) => setQuantity(e.target.value)}
+                            className="quantity-input"
+                        />
+                    </div>
                     <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
-                    {errors.ingredients && <span style={{ color: 'red' }}>{errors.ingredients}</span>}
+                    {errors.ingredients && <span>{errors.ingredients}</span>}
                 </div>
-                <div>
-                    <h4>Allergy Tags</h4>
+                <hr />
+                <h4>Allergy Tags</h4>
+                <div className="allergy-tags">
                     {allergyOptions.map((allergy, index) => (
                         <div key={index}>
                             <label>
@@ -177,9 +167,10 @@ const CreateRecipe: React.FC = () => {
                         </div>
                     ))}
                 </div>
+                <hr />
                 <button type="submit">Save Recipe</button>
             </form>
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+            {successMessage && <p className="success-message">{successMessage}</p>}
         </div>
     );
 };
