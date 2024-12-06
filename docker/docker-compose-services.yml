@@ -78,18 +78,18 @@ services:
       - micro_food
     pull_policy: always
 
-  #loginservice:
-   # image: mcflonilo/mikrotjenestereksamen:loginservice
-    #ports:
-     # - '8080:8000'
-    #environment:
-     # - SPRING_PROFILES_ACTIVE=docker
-      #- SPRING_CLOUD_CONSUL_HOST=consul
-    #depends_on:
-     # - rabbitmq-dev
-    #networks:
-    #  - micro_food
-    #pull_policy: always
+  loginservice:
+    image: mcflonilo/mikrotjenestereksamen:loginservice
+    ports:
+      - '8080:8000'
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_CLOUD_CONSUL_HOST=consul
+    depends_on:
+     - rabbitmq-dev
+    networks:
+      - micro_food
+    pull_policy: always
 
   userservice:
     image: mcflonilo/mikrotjenestereksamen:userservice
