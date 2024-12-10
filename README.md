@@ -35,10 +35,6 @@ To run the project using Docker, execute the following commands in the root dire
 ```bash
 # Start all services
 docker-compose -f docker/docker-compose-services.yml up
-
-# Start the Login Service manually
-cd ./LoginService/
-mvn spring-boot:run
 ```
 
 > **Note:** Login functionality does not work when using Docker.
